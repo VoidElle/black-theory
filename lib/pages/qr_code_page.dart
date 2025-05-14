@@ -1,3 +1,5 @@
+import 'package:black_theory/utils/global_colors.dart';
+import 'package:black_theory/widgets/global_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -13,19 +15,44 @@ class QrCodePage extends StatefulWidget {
 
 class _QrCodePageState extends State<QrCodePage> {
 
-  late String qrData;
+  // QR code data
+  late String _qrData;
 
+  // Device sizes
+  double? _deviceHeight;
+  double? _deviceWidth;
+
+  // Function to change QR code data
   void _changeQrCodeData() {
     final String newData = Functions.retrieveQrCodeData();
     setState(() {
-      qrData = newData;
+      _qrData = newData;
     });
   }
 
   @override
+  void initState() {
+    _qrData = Functions.retrieveQrCodeData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _changeQrCodeData();
+
+    // Initialize device sizes
+    // (Cannot be done in initState because of context)
+    if (_deviceHeight == null || _deviceWidth == null) {
+      final Size deviceSize = MediaQuery.of(context).size;
+      _deviceHeight = deviceSize.height;
+      _deviceWidth = deviceSize.width;
+    }
+
     return Scaffold(
+      drawer: SizedBox(
+        width: _deviceWidth,
+        child: GlobalDrawer(),
+      ),
+      drawerEdgeDragWidth: _deviceWidth,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -33,8 +60,8 @@ class _QrCodePageState extends State<QrCodePage> {
             fit: BoxFit.cover,
           ),
         ),
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: _deviceHeight,
+        width: _deviceWidth,
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,7 +81,7 @@ class _QrCodePageState extends State<QrCodePage> {
                 "Accedi a tutti i centri, Sfrutta\ni tuoi Crediti usando questo \nQrCode",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFF00FF66),
+                  color: GlobalColors.primaryNeonGreenColor,
                   fontSize: 20,
                 ),
               ),
@@ -64,7 +91,7 @@ class _QrCodePageState extends State<QrCodePage> {
                   vertical: 25,
                 ),
                 child: QrImageView(
-                  data: qrData,
+                  data: _qrData,
                   gapless: false,
                   version: QrVersions.auto,
                   size: 200,
@@ -73,21 +100,21 @@ class _QrCodePageState extends State<QrCodePage> {
               ),
 
               Text(
-                "Client ID: ${qrData.split('&')[0].split('=')[1]}",
+                "Client ID: ${_qrData.split('&')[0].split('=')[1]}",
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
 
               Text(
-                "Center ID: ${qrData.split('&')[1].split('=')[1]}",
+                "Center ID: ${_qrData.split('&')[1].split('=')[1]}",
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
 
               Text(
-                "Timestamp: ${qrData.split('&')[2].split('=')[1]}",
+                "Timestamp: ${_qrData.split('&')[2].split('=')[1]}",
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -100,13 +127,18 @@ class _QrCodePageState extends State<QrCodePage> {
                 child: ElevatedButton(
                   onPressed: _changeQrCodeData,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00FF66), // Neon green
+                    backgroundColor: GlobalColors.primaryNeonGreenColor, // Neon green
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.5), // Rounded corners
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 55),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 55,
+                    ),
                     elevation: 10, // Strong shadow/glow
-                    shadowColor: const Color(0xFF00FF66).withOpacity(0.5), // Neon green glow
+                    shadowColor: GlobalColors.primaryNeonGreenColor.withValues(
+                      alpha: 0.5,
+                    ), // Neon green glow
                   ),
                   child: const Text(
                     'Genera Nuovo QR CODE',
