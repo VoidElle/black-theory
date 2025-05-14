@@ -3,7 +3,7 @@ import 'package:black_theory/widgets/global_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../utils/functions.dart';
+import '../utils/global_functions.dart';
 
 class QrCodePage extends StatefulWidget {
 
@@ -24,7 +24,7 @@ class _QrCodePageState extends State<QrCodePage> {
 
   // Function to change QR code data
   void _changeQrCodeData() {
-    final String newData = Functions.retrieveQrCodeData();
+    final String newData = GlobalFunctions.retrieveQrCodeData();
     setState(() {
       _qrData = newData;
     });
@@ -32,7 +32,7 @@ class _QrCodePageState extends State<QrCodePage> {
 
   @override
   void initState() {
-    _qrData = Functions.retrieveQrCodeData();
+    _qrData = GlobalFunctions.retrieveQrCodeData();
     super.initState();
   }
 

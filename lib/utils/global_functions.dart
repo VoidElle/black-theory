@@ -1,6 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class Functions {
+class GlobalFunctions {
 
   // Function to retrieve QR code data
   static String retrieveQrCodeData() {

@@ -1,4 +1,5 @@
 import 'package:black_theory/pages/qr_code_page.dart';
+import 'package:black_theory/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -21,7 +22,9 @@ class BlackTheory extends StatelessWidget {
     return MaterialApp(
       title: 'BlackTheory',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: GlobalColors.primaryNeonGreenColor,
+        ),
       ),
       home: const QrCodePage(),
     );
