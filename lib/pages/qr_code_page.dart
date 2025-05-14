@@ -67,7 +67,7 @@ class _QrCodePageState extends State<QrCodePage> {
                   data: qrData,
                   gapless: false,
                   version: QrVersions.auto,
-                  size: 300,
+                  size: 200,
                   backgroundColor: Colors.white,
                 ),
               ),
