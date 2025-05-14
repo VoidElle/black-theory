@@ -12,16 +12,20 @@ class GlobalDrawer extends StatelessWidget {
     return Drawer(
       shape: const RoundedRectangleBorder(),
       child: ColoredBox(
-        color: const Color(0xFF000000),
+        color: Colors.black,
         child: SafeArea(
           child: LayoutBuilder(
-            builder: (context, constraints) {
+            builder: (BuildContext context, BoxConstraints constraints) {
               return SingleChildScrollView(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight,
+                  ),
                   child: IntrinsicHeight(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -40,6 +44,7 @@ class GlobalDrawer extends StatelessWidget {
     );
   }
 
+  // Function to build the items
   List<Widget> _buildItems() {
     return [
 
