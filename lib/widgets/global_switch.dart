@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GlobalSwitch extends StatelessWidget {
@@ -30,13 +31,12 @@ class GlobalSwitch extends StatelessWidget {
 
         const Spacer(),
 
-        Switch(
-          value: switchValue,
-          onChanged: (value) {
+        CupertinoSwitch(
+          value: false,
+          inactiveTrackColor: Colors.grey,
+          onChanged: (bool value) {
             voidCallback();
           },
-          activeColor: Colors.green,
-          inactiveThumbColor: Colors.red,
         ),
 
       ],
