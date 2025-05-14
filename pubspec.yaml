@@ -10,7 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Design
   cupertino_icons: ^1.0.8
+
+  # Environment
   flutter_dotenv: ^5.2.1
 
   # QR code
@@ -19,7 +22,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # Linting
   flutter_lints: ^5.0.0
+
+  # Launcher icons
+  flutter_launcher_icons: "^0.14.3"
 
 flutter:
   uses-material-design: true
@@ -27,3 +35,9 @@ flutter:
   assets:
     - .env
     - assets/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app_icon.png"
+  min_sdk_android: 21
