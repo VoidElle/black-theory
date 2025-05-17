@@ -1,11 +1,27 @@
 import 'package:black_theory/widgets/global_switch.dart';
 import 'package:flutter/material.dart';
 
+import '../repositories/shared_preferences_repository.dart';
+import '../utils/global_constants.dart';
 import 'global_quote.dart';
 
-class GlobalDrawer extends StatelessWidget {
+class GlobalDrawer extends StatefulWidget {
 
   const GlobalDrawer({super.key});
+
+  @override
+  State<GlobalDrawer> createState() => _GlobalDrawerState();
+}
+
+class _GlobalDrawerState extends State<GlobalDrawer> {
+
+  late bool _stealthMode;
+
+  @override
+  void initState() {
+    _stealthMode = SharedPreferencesRepository.sharedPreferences.getBool(GlobalConstants.sharedPreferencesStealthModeKey) ?? GlobalConstants.sharedPreferencesStealthModeDefaultValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +125,7 @@ class GlobalDrawer extends StatelessWidget {
       _wrapWithPadding(
         child: GlobalSwitch(
           text: "Stealth mode",
-          switchValue: false,
+          switchValue: _stealthMode,
           voidCallback: () {},
         ),
       ),
@@ -178,5 +194,4 @@ class GlobalDrawer extends StatelessWidget {
       ],
     );
   }
-
 }

@@ -12,6 +12,7 @@ dependencies:
 
   # Design
   cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
 
   # Environment
   flutter_dotenv: ^5.2.1
@@ -19,12 +20,43 @@ dependencies:
   # QR code
   qr_flutter: ^4.1.0
 
+  # Persistence
+  shared_preferences: ^2.5.3
+
+  # Networking
+  dio: ^5.8.0+1
+  retrofit: ^4.4.2
+
+  # Annotations
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+  riverpod_annotation: ^2.6.1
+
+  # Loggers
+  logger: ^2.5.0
+  pretty_dio_logger: ^1.4.0
+
+  # State management
+  flutter_riverpod: ^2.6.1
+
+  # Utils
+  go_router: ^15.1.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   # Linting
   flutter_lints: ^5.0.0
+
+  # Serialization
+  freezed: ^3.0.6
+  json_serializable: ^6.9.5
+
+  # Code generation
+  build_runner: ^2.4.15
+  retrofit_generator: '>=8.0.0 <10.0.0'
+  riverpod_generator: ^2.6.5
 
   # Launcher icons
   flutter_launcher_icons: "^0.14.3"

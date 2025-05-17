@@ -32,7 +32,7 @@ class GlobalSwitch extends StatelessWidget {
         const Spacer(),
 
         CupertinoSwitch(
-          value: false,
+          value: switchValue,
           inactiveTrackColor: Colors.grey,
           onChanged: (bool value) {
             voidCallback();

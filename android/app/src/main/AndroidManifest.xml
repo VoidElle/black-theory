@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="black_theory"
+        android:label="BlackTheory"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

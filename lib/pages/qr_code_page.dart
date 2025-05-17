@@ -1,19 +1,20 @@
 import 'package:black_theory/utils/global_colors.dart';
 import 'package:black_theory/widgets/global_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../utils/global_functions.dart';
 
-class QrCodePage extends StatefulWidget {
+class QrCodePage extends ConsumerStatefulWidget {
 
   const QrCodePage({super.key});
 
   @override
-  State<QrCodePage> createState() => _QrCodePageState();
+  ConsumerState<QrCodePage> createState() => _QrCodePageState();
 }
 
-class _QrCodePageState extends State<QrCodePage> {
+class _QrCodePageState extends ConsumerState<QrCodePage> {
 
   // QR code data
   late String _qrData;

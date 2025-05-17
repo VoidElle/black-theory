@@ -1,15 +1,22 @@
 import 'package:black_theory/pages/qr_code_page.dart';
+import 'package:black_theory/repositories/shared_preferences_repository.dart';
 import 'package:black_theory/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<void> main() async {
 
   // Load environment variables from .env file
   await dotenv.load();
 
+  // Initialize the Shared Preferences repository
+  await SharedPreferencesRepository.initialize();
+
   runApp(
-    const BlackTheory(),
+    ProviderScope(
+      child: const BlackTheory(),
+    ),
   );
 }
 
