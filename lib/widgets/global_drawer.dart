@@ -1,27 +1,13 @@
+import 'package:black_theory/providers/global_providers.dart';
 import 'package:black_theory/widgets/global_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../repositories/shared_preferences_repository.dart';
-import '../utils/global_constants.dart';
 import 'global_quote.dart';
 
-class GlobalDrawer extends StatefulWidget {
+class GlobalDrawer extends StatelessWidget {
 
   const GlobalDrawer({super.key});
-
-  @override
-  State<GlobalDrawer> createState() => _GlobalDrawerState();
-}
-
-class _GlobalDrawerState extends State<GlobalDrawer> {
-
-  late bool _stealthMode;
-
-  @override
-  void initState() {
-    _stealthMode = SharedPreferencesRepository.sharedPreferences.getBool(GlobalConstants.sharedPreferencesStealthModeKey) ?? GlobalConstants.sharedPreferencesStealthModeDefaultValue;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,12 +108,20 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
         thickness: 1.5,
       ),
 
-      _wrapWithPadding(
-        child: GlobalSwitch(
-          text: "Stealth mode",
-          switchValue: _stealthMode,
-          voidCallback: () {},
-        ),
+      Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+
+          final bool currentStealthModeStatus = ref.watch(stealthModeStatusProvider) ?? false;
+          final Function(bool value) onSwitch = ref.read(stealthModeStatusProvider.notifier).changeStatus;
+
+          return _wrapWithPadding(
+            child: GlobalSwitch(
+              text: "Stealth mode",
+              switchValue: currentStealthModeStatus,
+              onSwitch: onSwitch,
+            ),
+          );
+        }
       ),
 
       const Spacer(),

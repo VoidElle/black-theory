@@ -36,5 +36,4 @@ class BlackTheory extends StatelessWidget {
       home: const QrCodePage(),
     );
   }
-
 }

@@ -6,13 +6,13 @@ class GlobalSwitch extends StatelessWidget {
   const GlobalSwitch({
     required this.text,
     required this.switchValue,
-    required this.voidCallback,
+    required this.onSwitch,
     super.key,
   });
 
   final String text;
   final bool switchValue;
-  final VoidCallback voidCallback;
+  final Function(bool value) onSwitch;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class GlobalSwitch extends StatelessWidget {
           value: switchValue,
           inactiveTrackColor: Colors.grey,
           onChanged: (bool value) {
-            voidCallback();
+            onSwitch(value);
           },
         ),
 
