@@ -1,3 +1,4 @@
+import 'package:black_theory/providers/global_providers.dart';
 import 'package:black_theory/utils/global_colors.dart';
 import 'package:black_theory/widgets/global_drawer.dart';
 import 'package:flutter/material.dart';
@@ -100,25 +101,17 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                 ),
               ),
 
-              Text(
-                "Client ID: ${_qrData.split('&')[0].split('=')[1]}",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-
-              Text(
-                "Center ID: ${_qrData.split('&')[1].split('=')[1]}",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-
-              Text(
-                "Timestamp: ${_qrData.split('&')[2].split('=')[1]}",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+              Consumer(
+                builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final bool stealthMode = ref.watch(stealthModeStatusProvider);
+                  return Visibility(
+                    visible: !stealthMode,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: _buildDebugWidgets(),
+                    ),
+                  );
+                },
               ),
 
               Padding(
@@ -157,4 +150,32 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       ),
     );
   }
+
+  List<Widget> _buildDebugWidgets() {
+    return [
+
+      Text(
+        "Client ID: ${_qrData.split('&')[0].split('=')[1]}",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+
+      Text(
+        "Center ID: ${_qrData.split('&')[1].split('=')[1]}",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+
+      Text(
+        "Timestamp: ${_qrData.split('&')[2].split('=')[1]}",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+
+    ];
+  }
+
 }
