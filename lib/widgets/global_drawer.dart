@@ -1,4 +1,6 @@
 import 'package:black_theory/providers/global_providers.dart';
+import 'package:black_theory/utils/global_functions.dart';
+import 'package:black_theory/widgets/actions/modify_fields_bottom_sheet.dart';
 import 'package:black_theory/widgets/global_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +34,7 @@ class GlobalDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildHeader(context),
-                          ..._buildItems(),
+                          ..._buildItems(context),
                         ],
                       ),
                     ),
@@ -47,7 +49,7 @@ class GlobalDrawer extends StatelessWidget {
   }
 
   // Function to build the items
-  List<Widget> _buildItems() {
+  List<Widget> _buildItems(BuildContext context) {
     return [
 
       Divider(
@@ -81,25 +83,31 @@ class GlobalDrawer extends StatelessWidget {
 
       // Modify fields
       _wrapWithPadding(
-        child: Row(
-          spacing: 10,
-          children: [
+        child: GestureDetector(
+          onTapUp: (TapUpDetails _) {
+            Navigator.of(context).pop();
+            GlobalFunctions.showBottomSheet(context, ModifyFieldsBottomSheet());
+          },
+          child: Row(
+            spacing: 10,
+            children: [
 
-            Icon(
-              Icons.edit,
-              color: Colors.white,
-              size: 30,
-            ),
-
-            Text(
-              "Modifica campi",
-              style: TextStyle(
+              Icon(
+                Icons.edit,
                 color: Colors.white,
-                fontSize: 18,
+                size: 30,
               ),
-            ),
 
-          ],
+              Text(
+                "Modifica campi",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
 

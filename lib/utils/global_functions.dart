@@ -1,26 +1,35 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:black_theory/utils/shared_preferences_functions.dart';
+import 'package:flutter/material.dart';
 
 class GlobalFunctions {
 
   // Function to retrieve QR code data
   static String retrieveQrCodeData() {
 
-    // Retrieve the client ID from .env file
-    final String? clientId = dotenv.maybeGet("CLIENT_ID", fallback: null);
-    if (clientId == null) {
-      throw Exception("CLIENT_ID not found in .env file");
-    }
-
-    // Retrieve center ID from .env file
-    final String? centerId = dotenv.maybeGet("CENTER_ID", fallback: null);
-    if (centerId == null) {
-      throw Exception("CENTER_ID not found in .env file");
-    }
+    // Retrieve client and center id
+    final String clientId = SharedPreferencesFunctions.retrieveDynamicClientId();
+    final String centerId = SharedPreferencesFunctions.retrieveDynamicCenterId();
 
     // Retrieve unix timestamp
     final int timestamp = DateTime.now().millisecondsSinceEpoch;
 
     return "client_id=$clientId&center_id=$centerId&time=$timestamp";
+  }
+
+  // Function to show a bottom sheet
+  static Future<dynamic> showBottomSheet(BuildContext context, Widget bottomSheet) async {
+    return await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return bottomSheet;
+      },
+    );
   }
 
 }

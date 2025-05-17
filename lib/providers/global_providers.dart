@@ -1,3 +1,4 @@
+import 'package:black_theory/utils/shared_preferences_functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part "global_providers.g.dart";
@@ -12,4 +13,24 @@ class StealthModeStatus extends _$StealthModeStatus {
 
   void changeStatus(bool newValue) => state = newValue;
   void reset() => state = true;
+}
+
+@Riverpod(keepAlive: true)
+class GenerationFieldsStatus extends _$GenerationFieldsStatus {
+
+  final Map<String, dynamic> initialState = {
+    'client_id': SharedPreferencesFunctions.retrieveDynamicClientId(),
+    'center_id': SharedPreferencesFunctions.retrieveDynamicCenterId(),
+    'token': SharedPreferencesFunctions.retrieveDynamicToken(),
+  };
+
+  @override
+  Map<String, dynamic> build() => initialState;
+
+  void changeStatus(String key, dynamic newValue) => state = {
+    ...state,
+    key: newValue,
+  };
+
+  void reset() => state = initialState;
 }
