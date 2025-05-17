@@ -1,5 +1,6 @@
 import 'package:black_theory/providers/global_providers.dart';
 import 'package:black_theory/utils/global_colors.dart';
+import 'package:black_theory/utils/global_constants.dart';
 import 'package:black_theory/widgets/global_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +27,7 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
 
   // Function to change QR code data
   void _changeQrCodeData() {
-    final String newData = GlobalFunctions.retrieveQrCodeData();
+    final String newData = GlobalFunctions.retrieveQrCodeData(ref);
     setState(() {
       _qrData = newData;
     });
@@ -34,7 +35,7 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
 
   @override
   void initState() {
-    _qrData = GlobalFunctions.retrieveQrCodeData();
+    _qrData = GlobalFunctions.retrieveQrCodeData(ref);
     super.initState();
   }
 
@@ -152,17 +153,18 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
   }
 
   List<Widget> _buildDebugWidgets() {
+    final generationFieldsState = ref.watch(generationFieldsStatusProvider);
     return [
 
       Text(
-        "Client ID: ${_qrData.split('&')[0].split('=')[1]}",
+        "Client ID: ${generationFieldsState[GlobalConstants.stateClientIdKey]}",
         style: TextStyle(
           color: Colors.white,
         ),
       ),
 
       Text(
-        "Center ID: ${_qrData.split('&')[1].split('=')[1]}",
+        "Center ID: ${generationFieldsState[GlobalConstants.stateCenterIdKey]}",
         style: TextStyle(
           color: Colors.white,
         ),
@@ -170,6 +172,17 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
 
       Text(
         "Timestamp: ${_qrData.split('&')[2].split('=')[1]}",
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+
+      SizedBox(
+        height: 25,
+      ),
+
+      Text(
+        "Token: ${generationFieldsState[GlobalConstants.stateTokenIdKey]}",
         style: TextStyle(
           color: Colors.white,
         ),

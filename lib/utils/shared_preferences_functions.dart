@@ -28,7 +28,7 @@ class SharedPreferencesFunctions {
   static String retrieveDynamicToken() {
     final SharedPreferences sharedPreferences = SharedPreferencesRepository.sharedPreferences;
     return sharedPreferences.getString(GlobalConstants.sharedPreferencesTokenIdKey)
-        ?? EnvFunctions.retrieveClientId();
+        ?? EnvFunctions.retrieveToken();
   }
 
   /// ----- END READ ----- ///

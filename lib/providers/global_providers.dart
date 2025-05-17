@@ -1,6 +1,8 @@
 import 'package:black_theory/utils/shared_preferences_functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../utils/global_constants.dart';
+
 part "global_providers.g.dart";
 
 /// Provider that expose the value of the Stealth mode.
@@ -19,9 +21,9 @@ class StealthModeStatus extends _$StealthModeStatus {
 class GenerationFieldsStatus extends _$GenerationFieldsStatus {
 
   final Map<String, dynamic> initialState = {
-    'client_id': SharedPreferencesFunctions.retrieveDynamicClientId(),
-    'center_id': SharedPreferencesFunctions.retrieveDynamicCenterId(),
-    'token': SharedPreferencesFunctions.retrieveDynamicToken(),
+    GlobalConstants.stateClientIdKey: SharedPreferencesFunctions.retrieveDynamicClientId(),
+    GlobalConstants.stateCenterIdKey: SharedPreferencesFunctions.retrieveDynamicCenterId(),
+    GlobalConstants.stateTokenIdKey: SharedPreferencesFunctions.retrieveDynamicToken(),
   };
 
   @override
