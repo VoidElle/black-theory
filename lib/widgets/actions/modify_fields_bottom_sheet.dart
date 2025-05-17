@@ -1,16 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ModifyFieldsBottomSheet extends StatelessWidget {
+import '../../providers/global_providers.dart';
+import '../../utils/global_constants.dart';
+
+class ModifyFieldsBottomSheet extends ConsumerStatefulWidget {
 
   const ModifyFieldsBottomSheet({super.key});
 
   @override
+  ConsumerState<ModifyFieldsBottomSheet> createState() => _ModifyFieldsBottomSheetState();
+}
+
+class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomSheet> {
+
+  late TextEditingController _clientIdTextEditingController;
+  late TextEditingController _centerIdTextEditingController;
+  late TextEditingController _tokenTextEditingController;
+
+  @override
+  void initState() {
+
+    final Map<String, dynamic> generationFieldStatusProviderState = ref.read(generationFieldsStatusProvider);
+
+    _clientIdTextEditingController = TextEditingController();
+    _clientIdTextEditingController.text = generationFieldStatusProviderState[GlobalConstants.stateClientIdKey];
+
+    _centerIdTextEditingController = TextEditingController();
+    _centerIdTextEditingController.text = generationFieldStatusProviderState[GlobalConstants.stateCenterIdKey];
+
+    _tokenTextEditingController = TextEditingController();
+    _tokenTextEditingController.text = generationFieldStatusProviderState[GlobalConstants.stateTokenIdKey];
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-
-    final TextEditingController controller1 = TextEditingController();
-    final TextEditingController controller2 = TextEditingController();
-    final TextEditingController controller3 = TextEditingController();
-
     return Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -24,7 +50,7 @@ class ModifyFieldsBottomSheet extends StatelessWidget {
 
           // Input 1
           TextField(
-            controller: controller1,
+            controller: _clientIdTextEditingController,
             decoration: const InputDecoration(
               labelText: 'Client ID',
             ),
@@ -34,7 +60,7 @@ class ModifyFieldsBottomSheet extends StatelessWidget {
 
           // Input 2
           TextField(
-            controller: controller2,
+            controller: _centerIdTextEditingController,
             decoration: const InputDecoration(
               labelText: 'Center ID',
             ),
@@ -44,7 +70,7 @@ class ModifyFieldsBottomSheet extends StatelessWidget {
 
           // Input 3
           TextField(
-            controller: controller3,
+            controller: _tokenTextEditingController,
             decoration: const InputDecoration(
               labelText: 'Token',
             ),
@@ -72,9 +98,9 @@ class ModifyFieldsBottomSheet extends StatelessWidget {
                   onPressed: () {
                     // Collect values
                     final result = {
-                      'input1': controller1.text,
-                      'input2': controller2.text,
-                      'input3': controller3.text,
+                      'client_id': _clientIdTextEditingController.text,
+                      'center_id': _centerIdTextEditingController.text,
+                      'token': _tokenTextEditingController.text,
                     };
                     Navigator.pop(context, result); // return values
                   },
@@ -106,5 +132,4 @@ class ModifyFieldsBottomSheet extends StatelessWidget {
       ),
     );
   }
-
 }
