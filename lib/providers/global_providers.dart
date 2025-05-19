@@ -34,5 +34,9 @@ class GenerationFieldsStatus extends _$GenerationFieldsStatus {
     key: newValue,
   };
 
+  void setValues(Map<String, dynamic> newState) => state = {
+    ...newState,
+  };
+
   void reset() => state = initialState;
 }

@@ -34,7 +34,7 @@ class GlobalDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildHeader(context),
-                          ..._buildItems(context),
+                          ..._buildItems(),
                         ],
                       ),
                     ),
@@ -49,7 +49,7 @@ class GlobalDrawer extends StatelessWidget {
   }
 
   // Function to build the items
-  List<Widget> _buildItems(BuildContext context) {
+  List<Widget> _buildItems() {
     return [
 
       Divider(
@@ -83,31 +83,43 @@ class GlobalDrawer extends StatelessWidget {
 
       // Modify fields
       _wrapWithPadding(
-        child: GestureDetector(
-          onTapUp: (TapUpDetails _) {
-            Navigator.of(context).pop();
-            GlobalFunctions.showBottomSheet(context, ModifyFieldsBottomSheet());
-          },
-          child: Row(
-            spacing: 10,
-            children: [
+        child: Consumer(
+          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+            return GestureDetector(
+              onTapUp: (TapUpDetails _) async {
 
-              Icon(
-                Icons.edit,
-                color: Colors.white,
-                size: 30,
+                // Handle new values if they are returned
+                final Map<String, dynamic>? values = await GlobalFunctions.showBottomSheet(context, ModifyFieldsBottomSheet());
+                if (values != null && values.isNotEmpty) {
+                  ref.read(generationFieldsStatusProvider.notifier).setValues(values);
+                }
+
+                // Remove the bottom sheet
+                Navigator.of(context).pop();
+
+              },
+              child: Row(
+                spacing: 10,
+                children: [
+
+                  Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+
+                  Text(
+                    "Modifica campi",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+
+                ],
               ),
-
-              Text(
-                "Modifica campi",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
-              ),
-
-            ],
-          ),
+            );
+          }
         ),
       ),
 

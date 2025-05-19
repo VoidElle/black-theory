@@ -86,7 +86,7 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.pop(context); // dismiss without return
+                    Navigator.of(context).pop();
                   },
                   child: const Text('Cancel'),
                 ),
@@ -96,13 +96,15 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    // Collect values
-                    final result = {
-                      'client_id': _clientIdTextEditingController.text,
-                      'center_id': _centerIdTextEditingController.text,
-                      'token': _tokenTextEditingController.text,
+
+                    final Map<String, dynamic> result = {
+                      GlobalConstants.stateClientIdKey: _clientIdTextEditingController.text,
+                      GlobalConstants.stateCenterIdKey: _centerIdTextEditingController.text,
+                      GlobalConstants.stateTokenIdKey: _tokenTextEditingController.text,
                     };
-                    Navigator.pop(context, result); // return values
+
+                    Navigator.of(context).pop(result);
+
                   },
                   child: const Text('Submit'),
                 ),
@@ -118,7 +120,7 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.pop(context); // dismiss without return
+                    Navigator.of(context).pop();
                   },
                   child: const Text('Reset'),
                 ),
