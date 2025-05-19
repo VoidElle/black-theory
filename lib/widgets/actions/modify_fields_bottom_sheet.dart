@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/global_providers.dart';
+import '../../repositories/shared_preferences_repository.dart';
 import '../../utils/global_constants.dart';
 
 class ModifyFieldsBottomSheet extends ConsumerStatefulWidget {
@@ -30,7 +31,7 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
     _centerIdTextEditingController.text = generationFieldStatusProviderState[GlobalConstants.stateCenterIdKey];
 
     _tokenTextEditingController = TextEditingController();
-    _tokenTextEditingController.text = generationFieldStatusProviderState[GlobalConstants.stateTokenIdKey];
+    _tokenTextEditingController.text = generationFieldStatusProviderState[GlobalConstants.stateTokenKey];
 
     super.initState();
   }
@@ -95,15 +96,20 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
               // Submit button
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () {
+                  onPressed: () async {
 
+                    // Retrieve the result
                     final Map<String, dynamic> result = {
                       'action': 'submit',
                       GlobalConstants.stateClientIdKey: _clientIdTextEditingController.text,
                       GlobalConstants.stateCenterIdKey: _centerIdTextEditingController.text,
-                      GlobalConstants.stateTokenIdKey: _tokenTextEditingController.text,
+                      GlobalConstants.stateTokenKey: _tokenTextEditingController.text,
                     };
 
+                    // Save the new fields
+                    await SharedPreferencesRepository.saveNewGenerationFields(result);
+
+                    // Close the bottom sheet
                     Navigator.of(context).pop(result);
 
                   },

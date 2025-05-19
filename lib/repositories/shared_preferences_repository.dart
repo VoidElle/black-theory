@@ -1,3 +1,4 @@
+import 'package:black_theory/utils/global_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesRepository {
@@ -18,6 +19,27 @@ class SharedPreferencesRepository {
      throw Exception("SharedPreferences is not initialized! Call SharedPreferencesRepository.initialize() before!");
    }
    return _sharedPreferences!;
+  }
+  
+  static Future<bool> saveNewGenerationFields(Map<String, dynamic> generationFields) async {
+
+    if (_sharedPreferences == null) {
+      throw Exception("SharedPreferences is not initialized! Call SharedPreferencesRepository.initialize() before!");
+    }
+
+    final String newClientId = generationFields[GlobalConstants.stateClientIdKey];
+    final bool clientIdSavedSuccessfully = await _sharedPreferences!
+        .setString(GlobalConstants.sharedPreferencesClientIdKey, newClientId);
+
+    final String newCenterId = generationFields[GlobalConstants.stateCenterIdKey];
+    final bool centerIdSavedSuccessfully = await _sharedPreferences!
+        .setString(GlobalConstants.sharedPreferencesCenterIdKey, newCenterId);
+
+    final String newToken = generationFields[GlobalConstants.stateTokenKey];
+    final bool tokenSavedSuccessfully = await _sharedPreferences!
+        .setString(GlobalConstants.sharedPreferencesTokenKey, newToken);
+
+    return clientIdSavedSuccessfully && centerIdSavedSuccessfully && tokenSavedSuccessfully;
   }
 
 }

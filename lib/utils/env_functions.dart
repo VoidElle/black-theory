@@ -25,7 +25,7 @@ class EnvFunctions {
 
   // Function to retrieve the token from the env variables
   static String retrieveToken() {
-    final String envKey = GlobalConstants.envTokenIdKey;
+    final String envKey = GlobalConstants.envTokenKey;
     final String? token = dotenv.maybeGet(envKey, fallback: null);
     if (token == null) {
       throw Exception("$envKey not found in .env file");

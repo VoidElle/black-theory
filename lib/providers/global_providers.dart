@@ -23,7 +23,7 @@ class GenerationFieldsStatus extends _$GenerationFieldsStatus {
   final Map<String, dynamic> initialState = {
     GlobalConstants.stateClientIdKey: SharedPreferencesFunctions.retrieveDynamicClientId(),
     GlobalConstants.stateCenterIdKey: SharedPreferencesFunctions.retrieveDynamicCenterId(),
-    GlobalConstants.stateTokenIdKey: SharedPreferencesFunctions.retrieveDynamicToken(),
+    GlobalConstants.stateTokenKey: SharedPreferencesFunctions.retrieveDynamicToken(),
   };
 
   @override
@@ -43,7 +43,7 @@ class GenerationFieldsStatus extends _$GenerationFieldsStatus {
   void resetToEnvValues() => state = {
     GlobalConstants.stateClientIdKey: SharedPreferencesFunctions.retrieveEnvClientId(),
     GlobalConstants.stateCenterIdKey: SharedPreferencesFunctions.retrieveEnvCenterId(),
-    GlobalConstants.stateTokenIdKey: SharedPreferencesFunctions.retrieveEnvToken(),
+    GlobalConstants.stateTokenKey: SharedPreferencesFunctions.retrieveEnvToken(),
   };
 
 }

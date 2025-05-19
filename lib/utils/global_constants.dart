@@ -7,16 +7,16 @@ class GlobalConstants {
   // Env variable keys
   static const String envClientIdKey = "CLIENT_ID";
   static const String envCenterIdKey = "CENTER_ID";
-  static const String envTokenIdKey = "TOKEN";
+  static const String envTokenKey = "TOKEN";
 
   // SharedPreferences keys
   static const String sharedPreferencesClientIdKey = "CLIENT_ID";
   static const String sharedPreferencesCenterIdKey = "CENTER_ID";
-  static const String sharedPreferencesTokenIdKey = "TOKEN";
+  static const String sharedPreferencesTokenKey = "TOKEN";
 
   // State keys
   static const String stateClientIdKey = "CLIENT_ID";
   static const String stateCenterIdKey = "CENTER_ID";
-  static const String stateTokenIdKey = "TOKEN";
+  static const String stateTokenKey = "TOKEN";
 
 }

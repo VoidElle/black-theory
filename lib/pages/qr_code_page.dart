@@ -180,7 +180,7 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       ),
 
       Text(
-        "Token: ${generationFieldsState[GlobalConstants.stateTokenIdKey]}",
+        "Token: ${generationFieldsState[GlobalConstants.stateTokenKey]}",
         style: TextStyle(
           color: Colors.white,
         ),

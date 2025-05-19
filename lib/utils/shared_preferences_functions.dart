@@ -27,7 +27,7 @@ class SharedPreferencesFunctions {
   // If it is null, it will fallback to the env variables value
   static String retrieveDynamicToken() {
     final SharedPreferences sharedPreferences = SharedPreferencesRepository.sharedPreferences;
-    return sharedPreferences.getString(GlobalConstants.sharedPreferencesTokenIdKey)
+    return sharedPreferences.getString(GlobalConstants.sharedPreferencesTokenKey)
         ?? EnvFunctions.retrieveToken();
   }
 
@@ -65,7 +65,7 @@ class SharedPreferencesFunctions {
   // Function to save the Token to the shared preferences
   static Future<bool> saveDynamicToken(String value) async {
     final SharedPreferences sharedPreferences = SharedPreferencesRepository.sharedPreferences;
-    return await sharedPreferences.setString(GlobalConstants.sharedPreferencesTokenIdKey, value);
+    return await sharedPreferences.setString(GlobalConstants.sharedPreferencesTokenKey, value);
   }
 
   /// ----- END WRITE ----- ///
