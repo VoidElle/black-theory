@@ -1,3 +1,4 @@
+import 'package:black_theory/utils/env_functions.dart';
 import 'package:black_theory/utils/global_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,6 +39,27 @@ class SharedPreferencesRepository {
     final String newToken = generationFields[GlobalConstants.stateTokenKey];
     final bool tokenSavedSuccessfully = await _sharedPreferences!
         .setString(GlobalConstants.sharedPreferencesTokenKey, newToken);
+
+    return clientIdSavedSuccessfully && centerIdSavedSuccessfully && tokenSavedSuccessfully;
+  }
+
+  static Future<bool> resetGenerationFieldsToEnvs() async {
+
+    if (_sharedPreferences == null) {
+      throw Exception("SharedPreferences is not initialized! Call SharedPreferencesRepository.initialize() before!");
+    }
+
+    final String envClientId = EnvFunctions.retrieveClientId();
+    final bool clientIdSavedSuccessfully = await _sharedPreferences!
+        .setString(GlobalConstants.sharedPreferencesClientIdKey, envClientId);
+
+    final String envCenterId = EnvFunctions.retrieveCenterId();
+    final bool centerIdSavedSuccessfully = await _sharedPreferences!
+        .setString(GlobalConstants.sharedPreferencesCenterIdKey, envCenterId);
+
+    final String envToken = EnvFunctions.retrieveToken();
+    final bool tokenSavedSuccessfully = await _sharedPreferences!
+        .setString(GlobalConstants.sharedPreferencesTokenKey, envToken);
 
     return clientIdSavedSuccessfully && centerIdSavedSuccessfully && tokenSavedSuccessfully;
   }

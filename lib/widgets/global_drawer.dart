@@ -5,6 +5,7 @@ import 'package:black_theory/widgets/global_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../repositories/shared_preferences_repository.dart';
 import 'global_quote.dart';
 
 class GlobalDrawer extends StatelessWidget {
@@ -95,8 +96,10 @@ class GlobalDrawer extends StatelessWidget {
                   switch (action) {
                     case 'submit':
                       ref.read(generationFieldsStatusProvider.notifier).setValues(values);
+                      await SharedPreferencesRepository.saveNewGenerationFields(values);
                     case 'reset':
                       ref.read(generationFieldsStatusProvider.notifier).resetToEnvValues();
+                      await SharedPreferencesRepository.resetGenerationFieldsToEnvs();
                   }
                 }
 

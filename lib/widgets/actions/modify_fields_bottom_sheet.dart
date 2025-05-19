@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/global_providers.dart';
-import '../../repositories/shared_preferences_repository.dart';
 import '../../utils/global_constants.dart';
 
 class ModifyFieldsBottomSheet extends ConsumerStatefulWidget {
@@ -105,9 +104,6 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
                       GlobalConstants.stateCenterIdKey: _centerIdTextEditingController.text,
                       GlobalConstants.stateTokenKey: _tokenTextEditingController.text,
                     };
-
-                    // Save the new fields
-                    await SharedPreferencesRepository.saveNewGenerationFields(result);
 
                     // Close the bottom sheet
                     Navigator.of(context).pop(result);
