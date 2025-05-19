@@ -91,7 +91,13 @@ class GlobalDrawer extends StatelessWidget {
                 // Handle new values if they are returned
                 final Map<String, dynamic>? values = await GlobalFunctions.showBottomSheet(context, ModifyFieldsBottomSheet());
                 if (values != null && values.isNotEmpty) {
-                  ref.read(generationFieldsStatusProvider.notifier).setValues(values);
+                  final String action = values['action'];
+                  switch (action) {
+                    case 'submit':
+                      ref.read(generationFieldsStatusProvider.notifier).setValues(values);
+                    case 'reset':
+                      ref.read(generationFieldsStatusProvider.notifier).resetToEnvValues();
+                  }
                 }
 
                 // Remove the bottom sheet

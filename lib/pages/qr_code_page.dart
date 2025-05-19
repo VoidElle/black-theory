@@ -27,20 +27,18 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
 
   // Function to change QR code data
   void _changeQrCodeData() {
-    final String newData = GlobalFunctions.retrieveQrCodeData(ref);
+    final Map<String, dynamic> generationFieldStatusProviderState = ref.read(generationFieldsStatusProvider);
+    final String newData = GlobalFunctions.retrieveQrCodeData(generationFieldStatusProviderState);
     setState(() {
       _qrData = newData;
     });
   }
 
   @override
-  void initState() {
-    _qrData = GlobalFunctions.retrieveQrCodeData(ref);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+
+    final Map<String, dynamic> generationFieldStatusProviderState = ref.watch(generationFieldsStatusProvider);
+    _qrData = GlobalFunctions.retrieveQrCodeData(generationFieldStatusProviderState);
 
     // Initialize device sizes
     // (Cannot be done in initState because of context)

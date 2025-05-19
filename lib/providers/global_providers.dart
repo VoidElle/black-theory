@@ -39,4 +39,11 @@ class GenerationFieldsStatus extends _$GenerationFieldsStatus {
   };
 
   void reset() => state = initialState;
+
+  void resetToEnvValues() => state = {
+    GlobalConstants.stateClientIdKey: SharedPreferencesFunctions.retrieveEnvClientId(),
+    GlobalConstants.stateCenterIdKey: SharedPreferencesFunctions.retrieveEnvCenterId(),
+    GlobalConstants.stateTokenIdKey: SharedPreferencesFunctions.retrieveEnvToken(),
+  };
+
 }

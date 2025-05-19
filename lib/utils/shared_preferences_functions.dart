@@ -31,6 +31,21 @@ class SharedPreferencesFunctions {
         ?? EnvFunctions.retrieveToken();
   }
 
+  // Function to retrieve the Client id from the Env variables
+  static String retrieveEnvClientId() {
+    return EnvFunctions.retrieveClientId();
+  }
+
+  // Function to retrieve the Center id from the Env variables
+  static String retrieveEnvCenterId() {
+    return EnvFunctions.retrieveCenterId();
+  }
+
+  // Function to retrieve the Token from the Env variables
+  static String retrieveEnvToken() {
+    return EnvFunctions.retrieveToken();
+  }
+
   /// ----- END READ ----- ///
 
   /// ----- START WRITE ----- ///

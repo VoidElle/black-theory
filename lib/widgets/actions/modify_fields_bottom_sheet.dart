@@ -98,6 +98,7 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
                   onPressed: () {
 
                     final Map<String, dynamic> result = {
+                      'action': 'submit',
                       GlobalConstants.stateClientIdKey: _clientIdTextEditingController.text,
                       GlobalConstants.stateCenterIdKey: _centerIdTextEditingController.text,
                       GlobalConstants.stateTokenIdKey: _tokenTextEditingController.text,
@@ -120,7 +121,9 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop({
+                      'action': 'reset',
+                    });
                   },
                   child: const Text('Reset'),
                 ),
