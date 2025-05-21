@@ -27,7 +27,7 @@ final stealthModeStatusProvider =
 
 typedef _$StealthModeStatus = Notifier<bool>;
 String _$generationFieldsStatusHash() =>
-    r'd99694dea0771b8ea2ce1aa23a6fedb42e859ab2';
+    r'7cf6de199562b3b4b07d565d06cea020241af8a2';
 
 /// See also [GenerationFieldsStatus].
 @ProviderFor(GenerationFieldsStatus)

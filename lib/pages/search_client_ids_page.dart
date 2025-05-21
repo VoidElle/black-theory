@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../widgets/global_neon_button.dart';
+
 class SearchClientIdsPage extends StatelessWidget {
 
   const SearchClientIdsPage({super.key});
@@ -15,6 +17,7 @@ class SearchClientIdsPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
               GestureDetector(
@@ -28,10 +31,48 @@ class SearchClientIdsPage extends StatelessWidget {
                 ),
               ),
 
+              Expanded(child: _buildBody()),
+
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBody() {
+    return Stack(
+      children: [
+
+        // Todo
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: 100,
+          itemBuilder: (BuildContext _, int index) {
+            return SizedBox();
+          },
+        ),
+
+        Column(
+          children: [
+
+            Spacer(),
+
+            Center(
+              child: GlobalNeonButton(
+                text: 'Avvia ricerca',
+                onPressed: () {
+                  // Todo
+                },
+                padding: const EdgeInsets.symmetric(
+                  vertical: 25,
+                ),
+              ),
+            ),
+          ],
+        )
+
+      ],
     );
   }
 

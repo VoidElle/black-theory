@@ -2,6 +2,7 @@ import 'package:black_theory/providers/global_providers.dart';
 import 'package:black_theory/utils/global_colors.dart';
 import 'package:black_theory/utils/global_constants.dart';
 import 'package:black_theory/widgets/global_drawer.dart';
+import 'package:black_theory/widgets/global_neon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -115,35 +116,13 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                 },
               ),
 
-              Padding(
+              GlobalNeonButton(
+                text: 'Genera Nuovo QR CODE',
+                onPressed: _changeQrCodeData,
                 padding: const EdgeInsets.only(
                   top: 25,
                 ),
-                child: ElevatedButton(
-                  onPressed: _changeQrCodeData,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: GlobalColors.primaryNeonGreenColor, // Neon green
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.5), // Rounded corners
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 16,
-                      horizontal: 55,
-                    ),
-                    elevation: 10, // Strong shadow/glow
-                    shadowColor: GlobalColors.primaryNeonGreenColor.withValues(
-                      alpha: 0.5,
-                    ), // Neon green glow
-                  ),
-                  child: const Text(
-                    'Genera Nuovo QR CODE',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black, // For contrast on green
-                    ),
-                  ),
-                ),
-              )
+              ),
 
             ],
           ),

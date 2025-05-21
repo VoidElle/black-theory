@@ -33,4 +33,14 @@ class EnvFunctions {
     return token;
   }
 
+  // Function to retrieve the base url from the env variables
+  static String retrieveBaseUrl() {
+    final String envKey = GlobalConstants.baseUrlKey;
+    final String? baseUrl = dotenv.maybeGet(envKey, fallback: null);
+    if (baseUrl == null) {
+      throw Exception("$envKey not found in .env file");
+    }
+    return baseUrl;
+  }
+
 }
