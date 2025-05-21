@@ -1,9 +1,11 @@
+import 'package:black_theory/pages/search_client_ids_page.dart';
 import 'package:black_theory/providers/global_providers.dart';
 import 'package:black_theory/utils/global_functions.dart';
 import 'package:black_theory/widgets/actions/modify_fields_bottom_sheet.dart';
 import 'package:black_theory/widgets/global_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../repositories/shared_preferences_repository.dart';
 import 'global_quote.dart';
@@ -35,7 +37,7 @@ class GlobalDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildHeader(context),
-                          ..._buildItems(),
+                          ..._buildItems(context),
                         ],
                       ),
                     ),
@@ -50,7 +52,7 @@ class GlobalDrawer extends StatelessWidget {
   }
 
   // Function to build the items
-  List<Widget> _buildItems() {
+  List<Widget> _buildItems(BuildContext context) {
     return [
 
       Divider(
@@ -60,25 +62,31 @@ class GlobalDrawer extends StatelessWidget {
 
       // Find client_id
       _wrapWithPadding(
-        child: Row(
-          spacing: 10,
-          children: [
+        child: GestureDetector(
+          onTapUp: (TapUpDetails _) {
+            context.pop();
+            context.push(SearchClientIdsPage.route);
+          },
+          child: Row(
+            spacing: 10,
+            children: [
 
-            Icon(
-              Icons.person_outline,
-              color: Colors.white,
-              size: 30,
-            ),
-
-            Text(
-              "Ricerca Client ID",
-              style: TextStyle(
+              Icon(
+                Icons.person_outline,
                 color: Colors.white,
-                fontSize: 18,
+                size: 30,
               ),
-            ),
 
-          ],
+              Text(
+                "Ricerca Client ID",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
 

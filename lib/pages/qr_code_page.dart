@@ -12,6 +12,8 @@ class QrCodePage extends ConsumerStatefulWidget {
 
   const QrCodePage({super.key});
 
+  static const String route = '/';
+
   @override
   ConsumerState<QrCodePage> createState() => _QrCodePageState();
 }
