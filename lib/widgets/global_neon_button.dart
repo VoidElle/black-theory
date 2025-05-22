@@ -20,27 +20,38 @@ class GlobalNeonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: GlobalColors.primaryNeonGreenColor, // Neon green
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.5), // Rounded corners
-          ),
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 55,
-          ),
-          elevation: 10, // Strong shadow/glow
-          shadowColor: GlobalColors.primaryNeonGreenColor.withValues(
-            alpha: 0.5,
-          ), // Neon green glow
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.5),
+          boxShadow: [
+            BoxShadow(
+              color: GlobalColors.primaryNeonGreenColor.withValues(alpha: .5),
+              spreadRadius: 7.5,
+              blurRadius: 25,
+              offset: const Offset(0, 0), // Centered glow
+            ),
+          ],
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black, // For contrast on green
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: GlobalColors.primaryNeonGreenColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.5),
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 55,
+            ),
+            elevation: 0, // Disable default directional shadow
+            shadowColor: Colors.transparent, // Avoid conflict
+          ),
+          child: Text(
+            text,
+            style: const TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            ),
           ),
         ),
       ),

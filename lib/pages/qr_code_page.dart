@@ -100,12 +100,50 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                 ),
               ),
 
-              Text(
-                "Accedi a tutti i centri, Sfrutta\ni tuoi Crediti usando questo \nQrCode",
+              RichText(
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: GlobalColors.primaryNeonGreenColor,
-                  fontSize: 20,
+                text: TextSpan(
+                  children: [
+
+                    TextSpan(
+                      text: 'Accedi ',
+                      style: TextStyle(
+                        color: GlobalColors.primaryNeonGreenColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.25,
+                      ),
+                    ),
+
+                    TextSpan(
+                      text: 'a tutti i centri, ',
+                      style: TextStyle(
+                        color: GlobalColors.secondaryGreenColor,
+                        fontSize: 22,
+                        letterSpacing: 1.25,
+                      ),
+                    ),
+
+                    TextSpan(
+                      text: 'Sfrutta\n',
+                      style: TextStyle(
+                        color: GlobalColors.primaryNeonGreenColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.25,
+                      ),
+                    ),
+
+                    TextSpan(
+                      text: 'i tuoi Crediti usando questo\nQrCode',
+                      style: TextStyle(
+                        color: GlobalColors.secondaryGreenColor,
+                        fontSize: 22,
+                        letterSpacing: 1.25,
+                      ),
+                    )
+
+                  ],
                 ),
               ),
 
