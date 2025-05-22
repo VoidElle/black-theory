@@ -18,7 +18,7 @@ class _CheckExpirationDateRestClient implements CheckExpirationDateRestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<ResponseExpirationCheckModel> checkExpirationDateOfClientId(
+  Future<String> checkExpirationDateOfClientId(
     int clientId,
     String token,
   ) async {
@@ -33,9 +33,9 @@ class _CheckExpirationDateRestClient implements CheckExpirationDateRestClient {
     };
     _headers.removeWhere((k, v) => v == null);
     final _data = {'client_id': clientId, 'token': token};
-    final _options = _setStreamType<ResponseExpirationCheckModel>(
+    final _options = _setStreamType<String>(
       Options(
-            method: 'GET',
+            method: 'POST',
             headers: _headers,
             extra: _extra,
             contentType: 'application/x-www-form-urlencoded',
@@ -48,10 +48,10 @@ class _CheckExpirationDateRestClient implements CheckExpirationDateRestClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late ResponseExpirationCheckModel _value;
+    final _result = await _dio.fetch<String>(_options);
+    late String _value;
     try {
-      _value = ResponseExpirationCheckModel.fromJson(_result.data!);
+      _value = _result.data!;
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

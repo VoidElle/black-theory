@@ -1,5 +1,6 @@
 import 'package:black_theory/pages/search_client_ids_page.dart';
 import 'package:black_theory/providers/global_providers.dart';
+import 'package:black_theory/utils/global_constants.dart';
 import 'package:black_theory/utils/global_functions.dart';
 import 'package:black_theory/widgets/actions/modify_fields_bottom_sheet.dart';
 import 'package:black_theory/widgets/global_switch.dart';
@@ -7,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../repositories/rest_clients_repository.dart';
 import '../repositories/shared_preferences_repository.dart';
+import '../utils/shared_preferences_functions.dart';
 import 'global_quote.dart';
 
 class GlobalDrawer extends StatelessWidget {
@@ -105,9 +108,29 @@ class GlobalDrawer extends StatelessWidget {
                     case 'submit':
                       ref.read(generationFieldsStatusProvider.notifier).setValues(values);
                       await SharedPreferencesRepository.saveNewGenerationFields(values);
+
+                      final int clientId = int.parse(values[GlobalConstants.stateClientIdKey]);
+                      final String token = values[GlobalConstants.stateTokenKey];
+
+                      // Retrieve the expiration date of the selected client id
+                      RestClientsRepository.checkExpirationDateRestClient.checkExpirationDateOfClientId(clientId, token).then((String response) {
+                        final DateTime expirationDate = GlobalFunctions.retrieveExpirationDateFromResponse(response);
+                        ref.read(expirationCheckMapProvider.notifier).add(clientId, expirationDate);
+                      });
+
                     case 'reset':
                       ref.read(generationFieldsStatusProvider.notifier).resetToEnvValues();
                       await SharedPreferencesRepository.resetGenerationFieldsToEnvs();
+
+                      final int clientId = int.parse(SharedPreferencesFunctions.retrieveEnvClientId());
+                      final String token = SharedPreferencesFunctions.retrieveEnvToken();
+
+                      // Retrieve the expiration date of the selected client id
+                      RestClientsRepository.checkExpirationDateRestClient.checkExpirationDateOfClientId(clientId, token).then((String response) {
+                        final DateTime expirationDate = GlobalFunctions.retrieveExpirationDateFromResponse(response);
+                        ref.read(expirationCheckMapProvider.notifier).add(clientId, expirationDate);
+                      });
+
                   }
                 }
 

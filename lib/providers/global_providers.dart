@@ -5,7 +5,7 @@ import '../utils/global_constants.dart';
 
 part "global_providers.g.dart";
 
-/// Provider that expose the value of the Stealth mode.
+/// Provider that exposes the value of the Stealth mode.
 /// Default is true, to have 100% hiding capabilities to the staff
 @Riverpod(keepAlive: true)
 class StealthModeStatus extends _$StealthModeStatus {
@@ -17,6 +17,7 @@ class StealthModeStatus extends _$StealthModeStatus {
   void reset() => state = true;
 }
 
+/// Provider that exposes the fields that are used to generate the QR code
 @Riverpod(keepAlive: true)
 class GenerationFieldsStatus extends _$GenerationFieldsStatus {
 
@@ -46,4 +47,29 @@ class GenerationFieldsStatus extends _$GenerationFieldsStatus {
     GlobalConstants.stateTokenKey: SharedPreferencesFunctions.retrieveEnvToken(),
   };
 
+}
+
+/// Provider that exposes the map of ExpirationCheck models
+/// clientId -> ResponseExpirationCheckModel
+@Riverpod(keepAlive: true)
+class ExpirationCheckMap extends _$ExpirationCheckMap {
+
+  @override
+  Map<int, DateTime> build() => {};
+
+  void add(int clientId, DateTime expirationDate) {
+    state = {
+      ...state,
+      clientId: expirationDate,
+    };
+  }
+
+  void remove(int clientId) {
+    final Map<int, DateTime> newState = {
+      ...state
+    }..remove(clientId);
+    state = newState;
+  }
+
+  void reset() => state = {};
 }

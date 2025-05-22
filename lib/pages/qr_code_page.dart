@@ -1,10 +1,12 @@
 import 'package:black_theory/providers/global_providers.dart';
+import 'package:black_theory/repositories/rest_clients_repository.dart';
 import 'package:black_theory/utils/global_colors.dart';
 import 'package:black_theory/utils/global_constants.dart';
 import 'package:black_theory/widgets/global_drawer.dart';
 import 'package:black_theory/widgets/global_neon_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../utils/global_functions.dart';
@@ -35,6 +37,23 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
     setState(() {
       _qrData = newData;
     });
+  }
+
+  @override
+  void initState() {
+
+    // Retrieve the current selected client id and token
+    final Map<String, dynamic> generationFieldsState = ref.read(generationFieldsStatusProvider);
+    final int clientId = int.parse(generationFieldsState[GlobalConstants.stateClientIdKey]);
+    final String token = generationFieldsState[GlobalConstants.stateTokenKey];
+
+    // Retrieve the expiration date of the selected client id
+    RestClientsRepository.checkExpirationDateRestClient.checkExpirationDateOfClientId(clientId, token).then((String response) {
+      final DateTime expirationDate = GlobalFunctions.retrieveExpirationDateFromResponse(response);
+      ref.read(expirationCheckMapProvider.notifier).add(clientId, expirationDate);
+    });
+
+    super.initState();
   }
 
   @override
@@ -132,7 +151,19 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
   }
 
   List<Widget> _buildDebugWidgets() {
-    final generationFieldsState = ref.watch(generationFieldsStatusProvider);
+
+    final Map<String, dynamic> generationFieldsState = ref.watch(generationFieldsStatusProvider);
+
+    final Map<int, dynamic> expirationCheckMapState = ref.watch(expirationCheckMapProvider);
+    final int clientId = int.parse(generationFieldsState[GlobalConstants.stateClientIdKey]);
+
+    // Format the retrieved expiration date
+    final DateTime? currentClientIdExpirationDate = expirationCheckMapState[clientId];
+    String? formattedDateToShow;
+    if (currentClientIdExpirationDate != null) {
+      formattedDateToShow = DateFormat('dd/MM/yyyy').format(currentClientIdExpirationDate);
+    }
+
     return [
 
       Text(
@@ -165,6 +196,32 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
         style: TextStyle(
           color: Colors.white,
         ),
+      ),
+
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Expiration date: ${formattedDateToShow ?? 'SCONOSCIUTO'}",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          if (currentClientIdExpirationDate != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 6),
+              child: Container(
+                width: 10,
+                height: 10,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: currentClientIdExpirationDate.isAfter(DateTime.now())
+                      ? Colors.green
+                      : Colors.red,
+                ),
+              ),
+            ),
+        ],
       ),
 
     ];

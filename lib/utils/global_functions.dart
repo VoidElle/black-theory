@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:black_theory/main.dart';
 import 'package:black_theory/pages/qr_code_page.dart';
 import 'package:black_theory/pages/search_client_ids_page.dart';
 import 'package:black_theory/utils/global_constants.dart';
@@ -37,6 +40,7 @@ class GlobalFunctions {
 
   // App router
   static final GoRouter appRouter = GoRouter(
+    navigatorKey: navigatorKey,
     routes: [
       GoRoute(
         path: QrCodePage.route,
@@ -48,5 +52,12 @@ class GlobalFunctions {
       ),
     ],
   );
+
+  // Function to retrieve the expiration date from the check expiration API call
+  static DateTime retrieveExpirationDateFromResponse(String response) {
+    final Map<String, dynamic> responseMap = jsonDecode(response);
+    final String expirationDateString = responseMap['expiration_date'];
+    return DateTime.parse(expirationDateString);
+  }
 
 }

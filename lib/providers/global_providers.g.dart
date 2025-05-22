@@ -8,7 +8,7 @@ part of 'global_providers.dart';
 
 String _$stealthModeStatusHash() => r'2ea428ec5fb75bb57a60d699ab81d7f2c4e3a106';
 
-/// Provider that expose the value of the Stealth mode.
+/// Provider that exposes the value of the Stealth mode.
 /// Default is true, to have 100% hiding capabilities to the staff
 ///
 /// Copied from [StealthModeStatus].
@@ -29,7 +29,9 @@ typedef _$StealthModeStatus = Notifier<bool>;
 String _$generationFieldsStatusHash() =>
     r'7cf6de199562b3b4b07d565d06cea020241af8a2';
 
-/// See also [GenerationFieldsStatus].
+/// Provider that exposes the fields that are used to generate the QR code
+///
+/// Copied from [GenerationFieldsStatus].
 @ProviderFor(GenerationFieldsStatus)
 final generationFieldsStatusProvider =
     NotifierProvider<GenerationFieldsStatus, Map<String, dynamic>>.internal(
@@ -44,5 +46,26 @@ final generationFieldsStatusProvider =
     );
 
 typedef _$GenerationFieldsStatus = Notifier<Map<String, dynamic>>;
+String _$expirationCheckMapHash() =>
+    r'4bf41ce8f1b08efcf3e4c0dc7ccb2ab50b1cd810';
+
+/// Provider that exposes the map of ExpirationCheck models
+/// clientId -> ResponseExpirationCheckModel
+///
+/// Copied from [ExpirationCheckMap].
+@ProviderFor(ExpirationCheckMap)
+final expirationCheckMapProvider =
+    NotifierProvider<ExpirationCheckMap, Map<int, DateTime>>.internal(
+      ExpirationCheckMap.new,
+      name: r'expirationCheckMapProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$expirationCheckMapHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$ExpirationCheckMap = Notifier<Map<int, DateTime>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

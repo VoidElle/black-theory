@@ -2,13 +2,9 @@ import 'package:black_theory/network/rest/check_expiration_date_rest_client.dart
 import 'package:black_theory/repositories/rest_clients_repository.dart';
 import 'package:black_theory/utils/env_functions.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'network_inteceptor.dart';
-
-part 'network_handler.g.dart';
 
 class NetworkHandler {
 
@@ -51,7 +47,3 @@ class NetworkHandler {
   }
 
 }
-
-// Expose the NetworkHandler instance as a provider
-@Riverpod(keepAlive: true)
-NetworkHandler networkHandler(Ref ref) => NetworkHandler();

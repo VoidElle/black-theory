@@ -1,3 +1,4 @@
+import 'package:black_theory/network/network_handler.dart';
 import 'package:black_theory/repositories/shared_preferences_repository.dart';
 import 'package:black_theory/utils/global_colors.dart';
 import 'package:black_theory/utils/global_functions.dart';
@@ -5,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+late NetworkHandler networkHandler;
 
 Future<void> main() async {
 
@@ -31,6 +35,8 @@ Future<void> main() async {
       statusBarBrightness: Brightness.light,
     ),
   );
+
+  networkHandler = NetworkHandler();
 
   runApp(
     ProviderScope(
