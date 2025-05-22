@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 
-// Todo: Loaders
-
 class NetworkInterceptor extends InterceptorsWrapper {
 
   @override

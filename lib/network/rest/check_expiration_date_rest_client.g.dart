@@ -18,13 +18,28 @@ class _CheckExpirationDateRestClient implements CheckExpirationDateRestClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<dynamic> checkExpirationDateOfClientId() async {
+  Future<ResponseExpirationCheckModel> checkExpirationDateOfClientId(
+    int clientId,
+    String token,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<dynamic>(
-      Options(method: 'GET', headers: _headers, extra: _extra)
+    final _headers = <String, dynamic>{
+      r'user-agent': 'Dart/3.6 (dart:io)',
+      r'content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+      r'accept-encoding': 'gzip',
+      r'host': 'gym.theoryholding.com',
+      r'content-length': '54',
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = {'client_id': clientId, 'token': token};
+    final _options = _setStreamType<ResponseExpirationCheckModel>(
+      Options(
+            method: 'GET',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'application/x-www-form-urlencoded',
+          )
           .compose(
             _dio.options,
             'get-expiration-date.php',
@@ -33,8 +48,14 @@ class _CheckExpirationDateRestClient implements CheckExpirationDateRestClient {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch(_options);
-    final _value = _result.data;
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ResponseExpirationCheckModel _value;
+    try {
+      _value = ResponseExpirationCheckModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
     return _value;
   }
 

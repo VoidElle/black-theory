@@ -20,4 +20,13 @@ class GlobalConstants {
   static const String stateCenterIdKey = "CENTER_ID";
   static const String stateTokenKey = "TOKEN";
 
+  // Check expiration headers
+  static const Map<String, String> headers = <String, String>{
+    'user-agent': 'Dart/3.6 (dart:io)',
+    'content-type': 'application/x-www-form-urlencoded; charset=utf-8',
+    'accept-encoding': 'gzip',
+    'host': 'gym.theoryholding.com',
+    'content-length': '54',
+  };
+
 }

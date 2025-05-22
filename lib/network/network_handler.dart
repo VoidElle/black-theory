@@ -1,3 +1,5 @@
+import 'package:black_theory/network/rest/check_expiration_date_rest_client.dart';
+import 'package:black_theory/repositories/rest_clients_repository.dart';
 import 'package:black_theory/utils/env_functions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,6 +44,9 @@ class NetworkHandler {
     // Add the network interceptor
     final NetworkInterceptor networkInterceptor = NetworkInterceptor();
     dio.interceptors.add(networkInterceptor);
+
+    // Initialization of rest clients
+    RestClientsRepository.checkExpirationDateRestClient = CheckExpirationDateRestClient(dio);
 
   }
 
