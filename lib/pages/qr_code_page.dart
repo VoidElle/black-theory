@@ -155,14 +155,6 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                   data: _qrData,
                   gapless: false,
                   padding: EdgeInsets.all(2.5),
-                  dataModuleStyle: QrDataModuleStyle(
-                    dataModuleShape: QrDataModuleShape.square,
-                    color: GlobalColors.qrCodeBodyBlackColor,
-                  ),
-                  eyeStyle: QrEyeStyle(
-                    eyeShape: QrEyeShape.square,
-                    color: GlobalColors.qrCodeAnglesGrayColor,
-                  ),
                   version: QrVersions.auto,
                   size: 200,
                   backgroundColor: Colors.white,
