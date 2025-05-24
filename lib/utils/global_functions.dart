@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:black_theory/main.dart';
 import 'package:black_theory/pages/qr_code_page.dart';
-import 'package:black_theory/pages/search_client_ids_page.dart';
 import 'package:black_theory/utils/global_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -45,10 +44,6 @@ class GlobalFunctions {
       GoRoute(
         path: QrCodePage.route,
         builder: (BuildContext _, GoRouterState __) => QrCodePage(),
-      ),
-      GoRoute(
-        path: SearchClientIdsPage.route,
-        builder: (BuildContext _, GoRouterState __) => SearchClientIdsPage(),
       ),
     ],
   );
