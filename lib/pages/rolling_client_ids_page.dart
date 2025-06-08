@@ -1,5 +1,7 @@
+import 'package:black_theory/providers/global_providers.dart';
 import 'package:black_theory/utils/global_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../widgets/pages/rolling_client_ids_fab.dart';
@@ -64,10 +66,78 @@ class _RollingClientIdsPageState extends State<RollingClientIdsPage> {
                 ),
               ),
 
+              _buildClientIdList(),
+
             ],
           ),
         ),
       ),
     );
   }
+
+  Widget _buildClientIdList() {
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+
+        final List<String> rollingClientIds = ref.watch(rollingClientIdsListProvider);
+
+        if (rollingClientIds.isEmpty) {
+          return Expanded(
+            child: Center(
+              child: Column(
+                spacing: 15,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.no_accounts,
+                    color: Colors.white,
+                    size: 55,
+                  ),
+                  Text(
+                    'No Rolling Client IDs found\nAdd a new one using the button below',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
+        return Expanded(
+          child: ListView.builder(
+            itemCount: rollingClientIds.length,
+            itemBuilder: (BuildContext context, int index) {
+              final String clientId = rollingClientIds[index];
+              return ListTile(
+                title: Text(
+                  clientId,
+                  style: TextStyle(color: Colors.white),
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () async {
+                    final bool success = await ref.read(rollingClientIdsListProvider.notifier).removeClientId(context, clientId);
+                    if (!success) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'An error occurred while removing the client ID.',
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
 }

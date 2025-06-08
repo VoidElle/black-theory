@@ -193,16 +193,16 @@ class GlobalDrawer extends StatelessWidget {
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
 
           final bool rollingClientStatus = ref.watch(rollingClientStatusProvider) ?? false;
-          final Function(bool value) onSwitch = ref.read(rollingClientStatusProvider.notifier).changeStatus;
+          final Function(BuildContext context, bool newValue) onSwitch = ref.read(rollingClientStatusProvider.notifier).changeStatus;
 
           return _wrapWithPadding(
             padding: const EdgeInsets.symmetric(
               horizontal: 15,
             ),
             child: GlobalSwitch(
-              text: "Rolling client",
+              text: "Rolling client mode",
               switchValue: rollingClientStatus,
-              onSwitch: onSwitch,
+              onSwitch: (bool newValue) => onSwitch(context, newValue),
             ),
           );
         },

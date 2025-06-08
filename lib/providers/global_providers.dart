@@ -1,4 +1,6 @@
 import 'package:black_theory/utils/shared_preferences_functions.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../repositories/shared_preferences_repository.dart';
@@ -33,7 +35,7 @@ class RollingClientIdsList extends _$RollingClientIdsList {
 
   // Function to remove a clientId from the list, it will be removed
   // from the state and the SharedPreferences, if it exists in the list.
-  Future<bool> removeClientId(String clientId) async {
+  Future<bool> removeClientId(BuildContext context, String clientId) async {
 
     // If the clientId is not in the list, return false
     if (!state.contains(clientId)) {
@@ -45,6 +47,23 @@ class RollingClientIdsList extends _$RollingClientIdsList {
 
     // Remove the clientId from the list
     state = state.where((String loopedClientId) => loopedClientId != clientId).toList();
+
+    // If the list is empty, disable the Rolling client mode
+    if (state.isEmpty) {
+
+      // Disable the Rolling client mode
+      ref.read(rollingClientStatusProvider.notifier).changeStatus(context, false);
+
+      // Show a SnackBar to inform the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'You have removed the last Rolling client ID. The Rolling client mode has been disabled.',
+          ),
+        ),
+      );
+
+    }
 
     return true;
   }
@@ -73,7 +92,25 @@ class RollingClientStatus extends _$RollingClientStatus {
       .sharedPreferences
       .getBool(GlobalConstants.sharedPreferencesRollingClientKey) ?? false;
 
-  Future<void> changeStatus(bool newValue) async {
+  Future<void> changeStatus(BuildContext context, bool newValue) async {
+
+    // To enable rolling client mode, we need to ensure that there is
+    // at least one rolling client ID in the list.
+    if (newValue) {
+      final List<String> rollingClientIds = SharedPreferencesRepository.retrieveRollingClientIds();
+      if (rollingClientIds.isEmpty) {
+        context.pop();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              'You need to add at least one rolling client ID before enabling the Rolling client mode.',
+            ),
+          ),
+        );
+        return;
+      }
+    }
+
     await SharedPreferencesRepository.saveNewRollingClientValue(newValue);
     state = newValue;
   }
