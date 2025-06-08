@@ -84,20 +84,61 @@ class StealthModeStatus extends _$StealthModeStatus {
   void reset() => state = true;
 }
 
+/// Provider that handle the current index of the Rolling client mode
+@Riverpod(keepAlive: true)
+class RollingClientCurrentIndex extends _$RollingClientCurrentIndex {
+
+  @override
+  int build() => -1;
+
+  void next() {
+
+    // If the current index is greater than the last index, reset it to -1
+    if (state+1 >= SharedPreferencesRepository.retrieveRollingClientIds().length) {
+      state = -1;
+    } else {
+      // Increment the current index
+      state += 1;
+    }
+
+  }
+
+  void reset() => state = -1;
+}
+
 /// Provider that exposes the value of the Rolling client.
 @Riverpod(keepAlive: true)
 class RollingClientStatus extends _$RollingClientStatus {
 
   @override
-  bool build() => SharedPreferencesRepository
-      .sharedPreferences
-      .getBool(GlobalConstants.sharedPreferencesRollingClientKey) ?? false;
+  bool build() {
+
+    final bool enabled = SharedPreferencesRepository.sharedPreferences
+        .getBool(GlobalConstants.sharedPreferencesRollingClientKey) ?? false;
+
+    // Add the current client ID to the rolling client IDs list
+    if (enabled) {
+      final String currentClientId = SharedPreferencesFunctions.retrieveDynamicClientId();
+      if (currentClientId.isNotEmpty) {
+        SharedPreferencesRepository.addRollingClientId(currentClientId);
+      }
+    }
+
+    return enabled;
+  }
 
   Future<void> changeStatus(BuildContext context, bool newValue) async {
 
     // To enable rolling client mode, we need to ensure that there is
     // at least one rolling client ID in the list.
     if (newValue) {
+
+      // Add the current client ID to the rolling client IDs list
+      final String currentClientId = SharedPreferencesFunctions.retrieveDynamicClientId();
+      if (currentClientId.isNotEmpty) {
+        await SharedPreferencesRepository.addRollingClientId(currentClientId);
+      }
+
       final List<String> rollingClientIds = SharedPreferencesRepository.retrieveRollingClientIds();
       if (rollingClientIds.isEmpty) {
 

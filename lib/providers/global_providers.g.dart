@@ -7,7 +7,7 @@ part of 'global_providers.dart';
 // **************************************************************************
 
 String _$rollingClientIdsListHash() =>
-    r'0e8e6d30879a538afa0a3958c235d964ed07c1e4';
+    r'56029c1e2c6bba96a68bffeca6d5ca69f47b07e9';
 
 /// Provider that exposes the list of client ids of the Rolling.
 ///
@@ -46,8 +46,28 @@ final stealthModeStatusProvider =
     );
 
 typedef _$StealthModeStatus = Notifier<bool>;
+String _$rollingClientCurrentIndexHash() =>
+    r'961dc389e6f5b42637810cbfc8b9d0972b3b5268';
+
+/// Provider that handle the current index of the Rolling client mode
+///
+/// Copied from [RollingClientCurrentIndex].
+@ProviderFor(RollingClientCurrentIndex)
+final rollingClientCurrentIndexProvider =
+    NotifierProvider<RollingClientCurrentIndex, int>.internal(
+      RollingClientCurrentIndex.new,
+      name: r'rollingClientCurrentIndexProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$rollingClientCurrentIndexHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$RollingClientCurrentIndex = Notifier<int>;
 String _$rollingClientStatusHash() =>
-    r'211cb5e4d21a298ed738715c579a219b61f55038';
+    r'f9e3587a981726f64cad4e096f2268578f1cde82';
 
 /// Provider that exposes the value of the Rolling client.
 ///

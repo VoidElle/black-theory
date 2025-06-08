@@ -59,7 +59,31 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
   @override
   Widget build(BuildContext context) {
 
+    // Retrieve the current generation field status
     final Map<String, dynamic> generationFieldStatusProviderState = ref.watch(generationFieldsStatusProvider);
+
+    // Determine which client id to use
+    String? clientIdToUse;
+
+    // Handle the rolling client status mode
+    final bool rollingClientStatus = ref.watch(rollingClientStatusProvider);
+    if (rollingClientStatus) {
+      final int currentIndex = ref.watch(rollingClientCurrentIndexProvider);
+      if (currentIndex != -1) {
+        final List<String> rollingClientIds = ref.watch(rollingClientIdsListProvider);
+        clientIdToUse = rollingClientIds[currentIndex];
+      }
+    }
+
+    // If the client id is not set, use the default one
+    if (clientIdToUse == null) {
+      clientIdToUse = generationFieldStatusProviderState[GlobalConstants.stateClientIdKey];
+    }
+
+    // Set the client id to use in the generation field status provider state
+    generationFieldStatusProviderState[GlobalConstants.stateClientIdKey] = clientIdToUse;
+
+    // Retrieve the QR code data
     _qrData = GlobalFunctions.retrieveQrCodeData(generationFieldStatusProviderState);
 
     // Initialize device sizes
@@ -69,6 +93,8 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       _deviceHeight = deviceSize.height;
       _deviceWidth = deviceSize.width;
     }
+
+    final bool stealthMode = ref.watch(stealthModeStatusProvider);
 
     return Scaffold(
       drawer: SizedBox(
@@ -152,12 +178,8 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                   vertical: 25,
                 ),
                 child: GestureDetector(
-                  onDoubleTap: () {
-                    debugPrint("Rooooolling the Client ID");
-                  },
-                  onLongPress: () {
-                    debugPrint("Resetting the rolling Client ID");
-                  },
+                  onDoubleTap: () => _onDoubleTapQrCode(ref, rollingClientStatus),
+                  onLongPress: () => _onLongPressQrCode(ref, rollingClientStatus),
                   child: QrImageView(
                     data: _qrData,
                     gapless: false,
@@ -169,17 +191,12 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                 ),
               ),
 
-              Consumer(
-                builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  final bool stealthMode = ref.watch(stealthModeStatusProvider);
-                  return Visibility(
-                    visible: !stealthMode,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: _buildDebugWidgets(),
-                    ),
-                  );
-                },
+              Visibility(
+                visible: !stealthMode,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: _buildDebugWidgets(),
+                ),
               ),
 
               GlobalNeonButton(
@@ -272,6 +289,46 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       ),
 
     ];
+  }
+
+  // Function to handle double tap on QR code
+  void _onDoubleTapQrCode(WidgetRef ref, bool rollingClientStatus) {
+    if (!rollingClientStatus) {
+
+      // Show a snackbar or dialog to inform the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Rolling Client mode is disabled. Enable it to roll the Client ID.',
+          ),
+        ),
+      );
+
+      return;
+    }
+
+    // If the rolling client mode is enabled, change the current index to the next one
+    ref.read(rollingClientCurrentIndexProvider.notifier).next();
+  }
+
+  // Function to handle long press on QR code
+  void _onLongPressQrCode(WidgetRef ref, bool rollingClientStatus) {
+    if (!rollingClientStatus) {
+
+      // Show a snackbar or dialog to inform the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Rolling Client mode is disabled. Enable it to reset the rolled Client ID.',
+          ),
+        ),
+      );
+
+      return;
+    }
+
+    // If the rolling client mode is enabled, change the current index to the next one
+    ref.read(rollingClientCurrentIndexProvider.notifier).reset();
   }
 
 }
