@@ -151,13 +151,21 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                 padding: const EdgeInsets.symmetric(
                   vertical: 25,
                 ),
-                child: QrImageView(
-                  data: _qrData,
-                  gapless: false,
-                  padding: EdgeInsets.all(2.5),
-                  version: QrVersions.auto,
-                  size: 200,
-                  backgroundColor: Colors.white,
+                child: GestureDetector(
+                  onDoubleTap: () {
+                    debugPrint("Rooooolling the Client ID");
+                  },
+                  onLongPress: () {
+                    debugPrint("Resetting the rolling Client ID");
+                  },
+                  child: QrImageView(
+                    data: _qrData,
+                    gapless: false,
+                    padding: EdgeInsets.all(2.5),
+                    version: QrVersions.auto,
+                    size: 200,
+                    backgroundColor: Colors.white,
+                  ),
                 ),
               ),
 

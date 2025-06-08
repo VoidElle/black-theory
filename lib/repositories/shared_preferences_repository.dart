@@ -21,7 +21,8 @@ class SharedPreferencesRepository {
    }
    return _sharedPreferences!;
   }
-  
+
+  // Save - Generating fields
   static Future<bool> saveNewGenerationFields(Map<String, dynamic> generationFields) async {
 
     if (_sharedPreferences == null) {
@@ -43,6 +44,20 @@ class SharedPreferencesRepository {
     return clientIdSavedSuccessfully && centerIdSavedSuccessfully && tokenSavedSuccessfully;
   }
 
+  // Save - Rolling client
+  static Future<bool> saveNewRollingClientValue(bool newValue) async {
+
+    if (_sharedPreferences == null) {
+      throw Exception("SharedPreferences is not initialized! Call SharedPreferencesRepository.initialize() before!");
+    }
+
+    final bool newValueSavedSuccessfully = await _sharedPreferences!
+        .setBool(GlobalConstants.sharedPreferencesRollingClientKey, newValue);
+
+    return newValueSavedSuccessfully;
+  }
+
+  // Reset - Generating fields
   static Future<bool> resetGenerationFieldsToEnvs() async {
 
     if (_sharedPreferences == null) {

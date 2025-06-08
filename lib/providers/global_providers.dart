@@ -1,6 +1,7 @@
 import 'package:black_theory/utils/shared_preferences_functions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../repositories/shared_preferences_repository.dart';
 import '../utils/global_constants.dart';
 
 part "global_providers.g.dart";
@@ -15,6 +16,23 @@ class StealthModeStatus extends _$StealthModeStatus {
 
   void changeStatus(bool newValue) => state = newValue;
   void reset() => state = true;
+}
+
+/// Provider that exposes the value of the Rolling client.
+@Riverpod(keepAlive: true)
+class RollingClientStatus extends _$RollingClientStatus {
+
+  @override
+  bool build() => SharedPreferencesRepository
+      .sharedPreferences
+      .getBool(GlobalConstants.sharedPreferencesRollingClientKey) ?? false;
+
+  Future<void> changeStatus(bool newValue) async {
+    await SharedPreferencesRepository.saveNewRollingClientValue(newValue);
+    state = newValue;
+  }
+
+  void reset() => state = false;
 }
 
 /// Provider that exposes the fields that are used to generate the QR code

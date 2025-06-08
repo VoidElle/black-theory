@@ -131,11 +131,36 @@ class GlobalDrawer extends StatelessWidget {
         ),
       ),
 
+      // Rolling Client IDs
+      _wrapWithPadding(
+        child: Row(
+          spacing: 10,
+          children: [
+
+            Icon(
+              Icons.casino,
+              color: Colors.white,
+              size: 30,
+            ),
+
+            Text(
+              "Rolling client IDs",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+
+          ],
+        ),
+      ),
+
       Divider(
         color: Colors.white,
         thickness: 1.5,
       ),
 
+      // Stealth mode switch
       Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
 
@@ -149,7 +174,27 @@ class GlobalDrawer extends StatelessWidget {
               onSwitch: onSwitch,
             ),
           );
-        }
+        },
+      ),
+
+      // Rolling client switch
+      Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+
+          final bool rollingClientStatus = ref.watch(rollingClientStatusProvider) ?? false;
+          final Function(bool value) onSwitch = ref.read(rollingClientStatusProvider.notifier).changeStatus;
+
+          return _wrapWithPadding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+            ),
+            child: GlobalSwitch(
+              text: "Rolling client",
+              switchValue: rollingClientStatus,
+              onSwitch: onSwitch,
+            ),
+          );
+        },
       ),
 
       const Spacer(),
@@ -179,12 +224,13 @@ class GlobalDrawer extends StatelessWidget {
   // Wraps the child with padding
   Widget _wrapWithPadding({
     required Widget child,
+    EdgeInsets padding = const EdgeInsets.symmetric(
+      horizontal: 15,
+      vertical: 7.5,
+    ),
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 7.5,
-      ),
+      padding: padding,
       child: child,
     );
   }

@@ -26,6 +26,26 @@ final stealthModeStatusProvider =
     );
 
 typedef _$StealthModeStatus = Notifier<bool>;
+String _$rollingClientStatusHash() =>
+    r'211cb5e4d21a298ed738715c579a219b61f55038';
+
+/// Provider that exposes the value of the Rolling client.
+///
+/// Copied from [RollingClientStatus].
+@ProviderFor(RollingClientStatus)
+final rollingClientStatusProvider =
+    NotifierProvider<RollingClientStatus, bool>.internal(
+      RollingClientStatus.new,
+      name: r'rollingClientStatusProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$rollingClientStatusHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$RollingClientStatus = Notifier<bool>;
 String _$generationFieldsStatusHash() =>
     r'7cf6de199562b3b4b07d565d06cea020241af8a2';
 

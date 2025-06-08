@@ -14,6 +14,7 @@ class GlobalConstants {
   static const String sharedPreferencesClientIdKey = "CLIENT_ID";
   static const String sharedPreferencesCenterIdKey = "CENTER_ID";
   static const String sharedPreferencesTokenKey = "TOKEN";
+  static const String sharedPreferencesRollingClientKey = "ROLLING_CLIENT";
 
   // State keys
   static const String stateClientIdKey = "CLIENT_ID";
