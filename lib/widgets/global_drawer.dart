@@ -5,7 +5,9 @@ import 'package:black_theory/widgets/actions/modify_fields_bottom_sheet.dart';
 import 'package:black_theory/widgets/global_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
+import '../pages/rolling_client_ids_page.dart';
 import '../repositories/rest_clients_repository.dart';
 import '../repositories/shared_preferences_repository.dart';
 import '../utils/shared_preferences_functions.dart';
@@ -69,7 +71,11 @@ class GlobalDrawer extends StatelessWidget {
               onTapUp: (TapUpDetails _) async {
 
                 // Handle new values if they are returned
-                final Map<String, dynamic>? values = await GlobalFunctions.showBottomSheet(context, ModifyFieldsBottomSheet());
+                final Map<String, dynamic>? values = await GlobalFunctions.showBottomSheet(
+                  context: context,
+                  bottomSheet: ModifyFieldsBottomSheet(),
+                );
+
                 if (values != null && values.isNotEmpty) {
                   final String action = values['action'];
                   switch (action) {
@@ -133,25 +139,30 @@ class GlobalDrawer extends StatelessWidget {
 
       // Rolling Client IDs
       _wrapWithPadding(
-        child: Row(
-          spacing: 10,
-          children: [
+        child: GestureDetector(
+          onTapUp: (TapUpDetails _) {
+            context.pushNamed(RollingClientIdsPage.route);
+          },
+          child: Row(
+            spacing: 10,
+            children: [
 
-            Icon(
-              Icons.casino,
-              color: Colors.white,
-              size: 30,
-            ),
-
-            Text(
-              "Rolling client IDs",
-              style: TextStyle(
+              Icon(
+                Icons.casino,
                 color: Colors.white,
-                fontSize: 18,
+                size: 30,
               ),
-            ),
 
-          ],
+              Text(
+                "Rolling client IDs",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
 

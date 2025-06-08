@@ -6,6 +6,26 @@ part of 'global_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$rollingClientIdsListHash() =>
+    r'0e8e6d30879a538afa0a3958c235d964ed07c1e4';
+
+/// Provider that exposes the list of client ids of the Rolling.
+///
+/// Copied from [RollingClientIdsList].
+@ProviderFor(RollingClientIdsList)
+final rollingClientIdsListProvider =
+    NotifierProvider<RollingClientIdsList, List<String>>.internal(
+      RollingClientIdsList.new,
+      name: r'rollingClientIdsListProvider',
+      debugGetCreateSourceHash:
+          const bool.fromEnvironment('dart.vm.product')
+              ? null
+              : _$rollingClientIdsListHash,
+      dependencies: null,
+      allTransitiveDependencies: null,
+    );
+
+typedef _$RollingClientIdsList = Notifier<List<String>>;
 String _$stealthModeStatusHash() => r'2ea428ec5fb75bb57a60d699ab81d7f2c4e3a106';
 
 /// Provider that exposes the value of the Stealth mode.

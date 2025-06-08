@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:black_theory/main.dart';
 import 'package:black_theory/pages/qr_code_page.dart';
+import 'package:black_theory/pages/rolling_client_ids_page.dart';
 import 'package:black_theory/utils/global_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,10 @@ class GlobalFunctions {
   }
 
   // Function to show a bottom sheet
-  static Future<dynamic> showBottomSheet(BuildContext context, Widget bottomSheet) async {
+  static Future<dynamic> showBottomSheet({
+    required BuildContext context,
+    required Widget bottomSheet,
+  }) async {
     return await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -43,7 +47,13 @@ class GlobalFunctions {
     routes: [
       GoRoute(
         path: QrCodePage.route,
+        name: QrCodePage.route,
         builder: (BuildContext _, GoRouterState __) => QrCodePage(),
+      ),
+      GoRoute(
+        path: RollingClientIdsPage.route,
+        name: RollingClientIdsPage.route,
+        builder: (BuildContext _, GoRouterState __) => RollingClientIdsPage(),
       ),
     ],
   );

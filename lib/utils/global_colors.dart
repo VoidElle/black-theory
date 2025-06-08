@@ -14,4 +14,7 @@ class GlobalColors {
   // QR code - Angles - Gray color
   static final Color qrCodeAnglesGrayColor = const Color(0xFF2d2d2d);
 
+  // Background - Black color
+  static final Color backgroundBlackColor = const Color(0xFF161616);
+
 }

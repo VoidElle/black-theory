@@ -6,6 +6,16 @@ import '../utils/global_constants.dart';
 
 part "global_providers.g.dart";
 
+/// Provider that exposes the list of client ids of the Rolling.
+@Riverpod(keepAlive: true)
+class RollingClientIdsList extends _$RollingClientIdsList {
+
+  @override
+  List<String> build() => <String>[];
+
+  void reset() => state = <String>[];
+}
+
 /// Provider that exposes the value of the Stealth mode.
 /// Default is true, to have 100% hiding capabilities to the staff
 @Riverpod(keepAlive: true)
