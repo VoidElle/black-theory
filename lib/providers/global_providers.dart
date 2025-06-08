@@ -1,3 +1,4 @@
+import 'package:black_theory/pages/rolling_client_ids_page.dart';
 import 'package:black_theory/utils/shared_preferences_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -99,7 +100,13 @@ class RollingClientStatus extends _$RollingClientStatus {
     if (newValue) {
       final List<String> rollingClientIds = SharedPreferencesRepository.retrieveRollingClientIds();
       if (rollingClientIds.isEmpty) {
+
+        // If there are no rolling client IDs, we need to redirect the user
+        // to the Rolling client IDs page to add one
         context.pop();
+        context.pushNamed(RollingClientIdsPage.route);
+
+        // Show a SnackBar to inform the user
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: const Text(
@@ -107,6 +114,7 @@ class RollingClientStatus extends _$RollingClientStatus {
             ),
           ),
         );
+
         return;
       }
     }
