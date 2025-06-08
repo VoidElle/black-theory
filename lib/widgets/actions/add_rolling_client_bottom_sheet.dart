@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../utils/global_constants.dart';
+
 class AddRollingClientBottomSheet extends ConsumerStatefulWidget {
 
   const AddRollingClientBottomSheet({super.key});
@@ -64,7 +66,7 @@ class _AddRollingClientBottomSheetState extends ConsumerState<AddRollingClientBo
 
                     // Retrieve the result
                     final Map<String, dynamic> result = {
-                      'action': 'submit',
+                      GlobalConstants.actionAddRollingClientId: _newRollingClientIdTextEditingController.text,
                     };
 
                     // Close the bottom sheet

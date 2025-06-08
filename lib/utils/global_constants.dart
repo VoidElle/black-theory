@@ -15,11 +15,15 @@ class GlobalConstants {
   static const String sharedPreferencesCenterIdKey = "CENTER_ID";
   static const String sharedPreferencesTokenKey = "TOKEN";
   static const String sharedPreferencesRollingClientKey = "ROLLING_CLIENT";
+  static const String sharedPreferencesRollingClientIdsListKey = "ROLLING_CLIENT_IDS_LIST";
 
   // State keys
   static const String stateClientIdKey = "CLIENT_ID";
   static const String stateCenterIdKey = "CENTER_ID";
   static const String stateTokenKey = "TOKEN";
+
+  // Actions
+  static const String actionAddRollingClientId = "ACTION_ADD_ROLLING_CLIENT_ID";
 
   // Check expiration headers
   static const Map<String, String> headers = <String, String>{

@@ -11,7 +11,43 @@ part "global_providers.g.dart";
 class RollingClientIdsList extends _$RollingClientIdsList {
 
   @override
-  List<String> build() => <String>[];
+  List<String> build() => SharedPreferencesRepository.retrieveRollingClientIds();
+
+  // Function to add a clientId to the list, it will be added
+  // to the state and the SharedPreferences, if it does not already exist in the list.
+  Future<bool> addClientId(String clientId) async {
+
+    // If the clientId is empty, return false
+    if (state.contains(clientId)) {
+      return false;
+    }
+
+    // Add the clientId to SharedPreferences
+    await SharedPreferencesRepository.addRollingClientId(clientId);
+
+    // Add the clientId to the list
+    state = [...state, clientId];
+
+    return true;
+  }
+
+  // Function to remove a clientId from the list, it will be removed
+  // from the state and the SharedPreferences, if it exists in the list.
+  Future<bool> removeClientId(String clientId) async {
+
+    // If the clientId is not in the list, return false
+    if (!state.contains(clientId)) {
+      return false;
+    }
+
+    // Remove the clientId from SharedPreferences
+    await SharedPreferencesRepository.removeRollingClientId(clientId);
+
+    // Remove the clientId from the list
+    state = state.where((String loopedClientId) => loopedClientId != clientId).toList();
+
+    return true;
+  }
 
   void reset() => state = <String>[];
 }

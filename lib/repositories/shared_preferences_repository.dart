@@ -79,4 +79,54 @@ class SharedPreferencesRepository {
     return clientIdSavedSuccessfully && centerIdSavedSuccessfully && tokenSavedSuccessfully;
   }
 
+  // Retrieve - Rolling client IDs
+  static List<String> retrieveRollingClientIds() {
+    if (_sharedPreferences == null) {
+      throw Exception("SharedPreferences is not initialized! Call SharedPreferencesRepository.initialize() before!");
+    }
+    return _sharedPreferences!.getStringList(GlobalConstants.sharedPreferencesRollingClientIdsListKey) ?? <String>[];
+  }
+
+  // Add - Rolling client ID
+  static Future<bool> addRollingClientId(String clientId) async {
+
+    // Ensure SharedPreferences is initialized
+    if (_sharedPreferences == null) {
+      throw Exception("SharedPreferences is not initialized! Call SharedPreferencesRepository.initialize() before!");
+    }
+
+    // Check if the clientId is already in the list
+    final List<String> currentIds = retrieveRollingClientIds();
+    if (currentIds.contains(clientId)) {
+      return false;
+    }
+
+    // Add the clientId to the list
+    currentIds.add(clientId);
+
+    // Save the updated list to SharedPreferences
+    return await _sharedPreferences!.setStringList(GlobalConstants.sharedPreferencesRollingClientIdsListKey, currentIds);
+  }
+
+  // Remove - Rolling client ID
+  static Future<bool> removeRollingClientId(String clientId) async {
+
+    // Ensure SharedPreferences is initialized
+    if (_sharedPreferences == null) {
+      throw Exception("SharedPreferences is not initialized! Call SharedPreferencesRepository.initialize() before!");
+    }
+
+    // Check if the clientId is in the list
+    final List<String> currentIds = retrieveRollingClientIds();
+    if (!currentIds.contains(clientId)) {
+      return false;
+    }
+
+    // Remove the clientId from the list
+    currentIds.remove(clientId);
+
+    // Save the updated list to SharedPreferences
+    return await _sharedPreferences!.setStringList(GlobalConstants.sharedPreferencesRollingClientIdsListKey, currentIds);
+  }
+
 }
