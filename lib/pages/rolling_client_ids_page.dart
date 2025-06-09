@@ -3,7 +3,11 @@ import 'package:black_theory/utils/global_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 
+import '../repositories/rest_clients_repository.dart';
+import '../utils/global_constants.dart';
+import '../utils/global_functions.dart';
 import '../widgets/pages/rolling_client_ids_fab.dart';
 
 class RollingClientIdsPage extends StatefulWidget {
@@ -107,20 +111,65 @@ class _RollingClientIdsPageState extends State<RollingClientIdsPage> {
           );
         }
 
+        final Map<String, dynamic> generationFieldsState = ref.watch(generationFieldsStatusProvider);
+        final Map<int, dynamic> expirationCheckMapState = ref.watch(expirationCheckMapProvider);
+
         return Expanded(
           child: ListView.builder(
             itemCount: rollingClientIds.length,
             itemBuilder: (BuildContext context, int index) {
-              final String clientId = rollingClientIds[index];
+
+              final int clientId = int.parse(rollingClientIds[index]);
+
+              final String token = generationFieldsState[GlobalConstants.stateTokenKey];
+
+              // Format the retrieved expiration date
+              final DateTime? currentClientIdExpirationDate = expirationCheckMapState[clientId];
+              String? formattedDateToShow;
+              if (currentClientIdExpirationDate != null) {
+                formattedDateToShow = DateFormat('dd/MM/yyyy').format(currentClientIdExpirationDate);
+              }
+
+              if (currentClientIdExpirationDate == null) {
+                RestClientsRepository.checkExpirationDateRestClient.checkExpirationDateOfClientId(clientId, token).then((String response) {
+                  final DateTime expirationDate = GlobalFunctions.retrieveExpirationDateFromResponse(response);
+                  ref.read(expirationCheckMapProvider.notifier).add(clientId, expirationDate);
+                });
+              }
+
               return ListTile(
                 title: Text(
-                  clientId,
+                  clientId.toString(),
                   style: TextStyle(color: Colors.white),
+                ),
+                subtitle: Row(
+                  children: [
+                    Text(
+                      "Expiration date: ${formattedDateToShow ?? 'Unknown'}",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    if (currentClientIdExpirationDate != null)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: currentClientIdExpirationDate.isAfter(DateTime.now())
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.delete, color: Colors.red),
                   onPressed: () async {
-                    final bool success = await ref.read(rollingClientIdsListProvider.notifier).removeClientId(context, clientId);
+                    final bool success = await ref.read(rollingClientIdsListProvider.notifier).removeClientId(context, clientId.toString());
                     if (!success) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

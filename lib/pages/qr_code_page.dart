@@ -41,18 +41,6 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
 
   @override
   void initState() {
-
-    // Retrieve the current selected client id and token
-    final Map<String, dynamic> generationFieldsState = ref.read(generationFieldsStatusProvider);
-    final int clientId = int.parse(generationFieldsState[GlobalConstants.stateClientIdKey]);
-    final String token = generationFieldsState[GlobalConstants.stateTokenKey];
-
-    // Retrieve the expiration date of the selected client id
-    RestClientsRepository.checkExpirationDateRestClient.checkExpirationDateOfClientId(clientId, token).then((String response) {
-      final DateTime expirationDate = GlobalFunctions.retrieveExpirationDateFromResponse(response);
-      ref.read(expirationCheckMapProvider.notifier).add(clientId, expirationDate);
-    });
-
     super.initState();
   }
 
@@ -95,6 +83,23 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
     }
 
     final bool stealthMode = ref.watch(stealthModeStatusProvider);
+
+    // Retrieve the current selected client id and token
+    final Map<String, dynamic> generationFieldsState = ref.read(generationFieldsStatusProvider);
+    final int clientId = int.parse(generationFieldsState[GlobalConstants.stateClientIdKey]);
+    final String token = generationFieldsState[GlobalConstants.stateTokenKey];
+
+    final Map<int, dynamic> expirationCheckMapState = ref.watch(expirationCheckMapProvider);
+
+    // Format the retrieved expiration date
+    final DateTime? currentClientIdExpirationDate = expirationCheckMapState[clientId];
+    if (currentClientIdExpirationDate == null) {
+      // Retrieve the expiration date of the selected client id
+      RestClientsRepository.checkExpirationDateRestClient.checkExpirationDateOfClientId(clientId, token).then((String response) {
+        final DateTime expirationDate = GlobalFunctions.retrieveExpirationDateFromResponse(response);
+        ref.read(expirationCheckMapProvider.notifier).add(clientId, expirationDate);
+      });
+    }
 
     return Scaffold(
       drawer: SizedBox(
