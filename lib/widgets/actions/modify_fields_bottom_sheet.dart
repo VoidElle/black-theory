@@ -54,6 +54,7 @@ class _ModifyFieldsBottomSheetState extends ConsumerState<ModifyFieldsBottomShee
             decoration: const InputDecoration(
               labelText: 'Client ID',
             ),
+            keyboardType: TextInputType.number,
           ),
 
           const SizedBox(height: 12),
