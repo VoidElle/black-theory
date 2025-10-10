@@ -125,9 +125,14 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
                 padding: const EdgeInsets.symmetric(
                   vertical: 25,
                 ),
-                child: Image.asset(
-                  "assets/greentheory.png",
-                  height: 100,
+                child: Text(
+                  "BlackTheory",
+                  style: TextStyle(
+                    color: GlobalColors.primaryNeonGreenColor,
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.25,
+                  ),
                 ),
               ),
 

@@ -11,7 +11,6 @@ import '../pages/rolling_client_ids_page.dart';
 import '../repositories/rest_clients_repository.dart';
 import '../repositories/shared_preferences_repository.dart';
 import '../utils/shared_preferences_functions.dart';
-import 'global_quote.dart';
 
 class GlobalDrawer extends StatelessWidget {
 
@@ -209,15 +208,6 @@ class GlobalDrawer extends StatelessWidget {
       ),
 
       const Spacer(),
-
-      _wrapWithPadding(
-        child: GlobalQuote(
-          padding: const EdgeInsets.symmetric(vertical: 25),
-          opacity: .6,
-          text: '“Corps\'ve long controlled our lives, taken lots... and now they\'re after our souls!”',
-          author: '- Johnny Silverhand',
-        ),
-      ),
 
       _wrapWithPadding(
         child: const Text(
