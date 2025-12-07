@@ -1,6 +1,7 @@
 <div align="center">
     <img src="./assets/app_icon.png" alt="Logo" height="200">
-    <h1>BlackTheory - GreenTheory Access System Vulnerability Exploit</h1>
+    <h1>BlackTheory</h1>
+    <p>GreenTheory Access System Vulnerability Exploit</p>
 </div>
 
 > [!WARNING]
