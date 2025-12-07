@@ -16,6 +16,10 @@
 >
 > Any unauthorized use of this information may constitute a crime under applicable law. Proceed only in a **controlled environment** and with **explicit authorization**.
 
+## ⏱️ Disclosure Timeline
+
+- [14/05/2025] – Vulnerability discovered
+
 ## 📋 Overview
 
 This document illustrates the analysis of a vulnerability identified in the QR code management system used for access to GreenTheory facilities.
