@@ -96,7 +96,7 @@ An attacker who extracts the static token (requires only intercepting **any** AP
 
 **Menu access**: Swipe from left to right to open the settings side menu.
 
-### Stealth Mode
+### Release Mode
 The application replicates the interface and behavior of the original app to avoid suspicion when using it at turnstiles.
 
 ### Rolling Client IDs

@@ -179,7 +179,7 @@ class GlobalDrawer extends StatelessWidget {
 
           return _wrapWithPadding(
             child: GlobalSwitch(
-              text: "Stealth mode",
+              text: "Release mode",
               switchValue: currentStealthModeStatus,
               onSwitch: onSwitch,
             ),
