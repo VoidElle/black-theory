@@ -27,7 +27,7 @@
 
 ## 📋 Overview
 
-This document illustrates the analysis of a vulnerability identified in the QR code management system used for access to GreenTheory facilities.
+This document illustrates the analysis of multiple vulnerabilities identified in the QR code management system used for access to GreenTheory facilities.
 
 ## 🧩 Context
 
@@ -49,24 +49,36 @@ https://gym.theoryholding.com/request/get-expiration-date.php
 ```
 
 In the parameters of this call, it is possible to retrieve:
-- The user's **token**, essential for exploiting the vulnerability
+- A **static authentication token**, shared across all users of the system
 - The `client_id`, used to verify the subscription status (also obtainable from the QR code)
 
-## 🔓 Identified Vulnerability
+## 🔓 Identified Vulnerabilities
 
-The vulnerability lies in the fact that the verification service **does not validate the association between token and client_id**.
+The system contains two critical security flaws:
 
-### Exploit
+### 1. Hard-Coded Shared Credentials (CWE-798)
+The authentication system uses a **static token that is identical for all users**. This token is embedded in the application and transmitted in **every API request, including unauthenticated requests**. The token can be extracted even from failed login attempts, making it completely public.
 
-A user in possession of a valid token (even with an expired subscription) can:
+### 2. Broken Access Control (OWASP A01:2021)
+The verification service **does not validate the association between token and client_id**, allowing any authenticated request to query data for any user.
 
-1. Use their own token to query the service with **any** `client_id`
-2. Verify the subscription status of others without authorization
-3. Generate valid QR codes using `client_id` with active subscriptions
+### Combined Exploit
+
+These vulnerabilities combine to create a critical security failure:
+
+1. **Static Token Exposure** → All users share the same authentication token, extractable through simple HTTPS interception
+2. **No Authorization Validation** → The system does not verify that a requester has permission to access a specific `client_id`
+3. **Unauthorized Access Generation** → Valid QR codes can be generated using any active `client_id`
+
+An attacker who extracts the static token (requires only intercepting **any** API request, including failed login attempts) can:
+- Query the subscription status of any user by iterating through `client_id` values
+- Generate valid access QR codes using any active `client_id`
+- Operate with full system access **without ever having a subscription**
+- Maintain indefinite access capability independent of any account ownership
 
 ### Limitations
 
-- **Token required** → It is necessary to possess a valid token (obtainable only with a subscription, even if expired).
+- **Static token required** → The shared token must be extracted once through HTTPS interception. However, this is trivial as the token is transmitted in **all API requests, including unauthenticated ones** - even a failed login attempt exposes the token. No valid account is technically required.
 - **Delay between entries** → There may be a minimum time between consecutive accesses with the same `client_id`. Using an ID that was recently used may result in denied access at the turnstile.
 
 ## ✨ Implemented Features
@@ -83,8 +95,8 @@ Allows specifying a list of valid `client_id` that are automatically rotated. Wh
 
 ### Prerequisites
 
-- A GreenTheory subscription (even expired) to obtain a valid token.
-- An HTTPS interceptor (e.g., Hodor, HTTP Toolkit, mitmproxy).
+- An HTTPS interceptor (e.g., Hodor, HTTP Toolkit, mitmproxy) to extract the shared static token.
+- **Note**: No valid GreenTheory account is required - the token is exposed in all API requests, including failed authentication attempts.
 
 ### Setup
 
@@ -94,12 +106,13 @@ Allows specifying a list of valid `client_id` that are automatically rotated. Wh
 - Generate the QR code
 - Decode the QR code to extract the parameters
 
-#### 2. Retrieve Token
+#### 2. Extract Static Token
 
-- Configure an HTTPS interceptor on the device
-- Open the GreenTheory application
-- Intercept the call to `get-expiration-date.php`
+- Configure an HTTPS interceptor on any device
+- Open the GreenTheory application or make any API request (even a failed login)
+- Intercept any call to the GreenTheory API
 - Extract the `token` parameter from the HTTPS request
+- Note: This token is **static, shared across all users, and exposed in all requests including unauthenticated ones**
 
 #### 3. Environment Configuration
 
@@ -107,7 +120,7 @@ Create a `.env` file in the project directory following the structure of `exampl
 ```env
 CLIENT_ID=your_client_id
 CENTER_ID=your_center_id
-TOKEN=your_token
+TOKEN=58565e69e046d3e0468cb273fecba690
 BASE_URL=https://gym.theoryholding.com/request/
 ```
 
@@ -115,11 +128,10 @@ BASE_URL=https://gym.theoryholding.com/request/
 
 ## 📝 Technical Notes
 
-The vulnerability can be classified as **Broken Access Control** (OWASP Top 10 - A01:2021), resulting from the lack of server-side validation of the association between credentials and requested resources.
+This vulnerability chain represents a critical security failure combining:
 
-## 🔒 Mitigation Recommendations
+- **Hard-Coded Credentials (CWE-798)** - Use of a static, shared authentication token across all users
+- **Broken Access Control (OWASP A01:2021)** - Lack of server-side validation associating credentials with requested resources
+- **Insecure Direct Object Reference (IDOR)** - Ability to access arbitrary user data by manipulating the `client_id` parameter
 
-- Implement server-side validation of the token-client_id association
-- Use tokens with scope limited to the owner's `client_id` only
-- Implement rate limiting on API calls
-- Add logging and monitoring of anomalous accesses
+The severity is compounded by the fact that the static token provides permanent access capability independent of individual account status.
