@@ -41,6 +41,17 @@ The QR code contains the following data:
 - `center_id` → Unique identifier of the gym location
 - `timestamp` → Date and time of QR code generation (UNIX epoch format)
 
+### 🗺️ Known Center IDs
+
+The following `center_id` values have been identified:
+
+| Center ID     | Location          |
+|---------------|-------------------|
+| 1747951200000 | GreenTheory Mecca |
+
+*Note: Additional center IDs can be discovered through QR code analysis or API enumeration.*
+
+
 ### 🛠️ Official Application Behavior
 
 The official application, upon opening, checks the expiration date of the user's subscription using the service:
