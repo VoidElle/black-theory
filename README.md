@@ -117,15 +117,7 @@ Allows specifying a list of valid `client_id` that are automatically rotated. Wh
 - Generate the QR code
 - Decode the QR code to extract the parameters
 
-#### 2. Extract Static Token
-
-- Configure an HTTPS interceptor on any device
-- Open the GreenTheory application or make any API request (even a failed login)
-- Intercept any call to the GreenTheory API
-- Extract the `token` parameter from the HTTPS request
-- Note: This token is **static, shared across all users, and exposed in all requests including unauthenticated ones**
-
-#### 3. Environment Configuration
+#### 2. Environment Configuration
 
 Create a `.env` file in the project directory following the structure of `example.env`:
 ```env
@@ -135,7 +127,7 @@ TOKEN=58565e69e046d3e0468cb273fecba690
 BASE_URL=https://gym.theoryholding.com/request/
 ```
 
-#### 4. Run / Build the Application
+#### 3. Run / Build the Application
 
 ## 📝 Technical Notes
 
