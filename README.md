@@ -27,6 +27,7 @@
 - [06/01/2026] - Vulnerability report sent to the provided email address
 - [17/01/2026] - Received confirmation of vulnerability receipt and acknowledgment from GreenTheory
 - [25/03/2026] - Vulnerability has been fixed in the production environment (API endpoints no more available)
+- [25/03/2026] - Exploit repository visibility changed from private to public
 
 ## 📋 Overview
 
