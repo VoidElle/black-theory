@@ -97,7 +97,7 @@ An attacker who extracts the static token (requires only intercepting **any** AP
 **Menu access**: Swipe from left to right to open the settings side menu.
 
 ### Release Mode
-The application replicates the interface and behavior of the original app to avoid suspicion when using it at turnstiles.
+The application replicates the interface and behavior of the original app to avoid suspicion when using it at turnstiles. (With prior authorization, of course)
 
 ### Rolling Client IDs
 Allows specifying a list of valid `client_id` that are automatically rotated. When the feature is active, a double tap on the QR code switches to the next `client_id` in the list.
@@ -106,8 +106,26 @@ Allows specifying a list of valid `client_id` that are automatically rotated. Wh
 
 ### Prerequisites
 
-- An HTTPS interceptor (e.g., Hodor, HTTP Toolkit, mitmproxy) to extract the shared static token.
-- **Note**: No valid GreenTheory account is required - the token is exposed in all API requests, including failed authentication attempts.
+The following tools must be installed before building or running the project:
+
+| Tool | Version | Notes |
+|------|---------|-------|
+| [fvm](https://fvm.app/documentation/getting-started/installation) | Latest stable | Recommended – manages the Flutter SDK version automatically |
+| [Flutter](https://docs.flutter.dev/get-started/install) | ≥ 3.29.x (Dart SDK `^3.7.2`) | Managed via `fvm`; run `fvm install` in the project root |
+| [Dart SDK](https://dart.dev/get-dart) | `^3.7.2` | Bundled with Flutter |
+| [Android Studio](https://developer.android.com/studio) / Xcode | Latest stable | Required for Android / iOS builds respectively |
+| [CocoaPods](https://cocoapods.org/) | Latest stable | Required for iOS only – `sudo gem install cocoapods` |
+
+> [!NOTE]
+> After installing `fvm`, run `fvm install` in the project root to automatically pull the correct Flutter version, then use `fvm flutter` in place of `flutter` for all commands (e.g. `fvm flutter pub get`, `fvm flutter run`).
+> Run `fvm flutter doctor` to verify that the environment is correctly configured.
+
+#### Platform-specific requirements
+
+- **Android** – Android SDK (API 21+), an emulator or a physical device with USB debugging enabled.
+- **iOS / macOS** – Xcode 15+ with Command Line Tools (`xcode-select --install`) and a valid Apple Developer account for device deployment.
+- **Linux** – `clang`, `cmake`, `ninja-build`, `pkg-config`, `libgtk-3-dev` (see [Flutter Linux prerequisites](https://docs.flutter.dev/get-started/install/linux)).
+- **Windows** – Visual Studio 2022 with the **Desktop development with C++** workload.
 
 ### Setup
 
@@ -117,15 +135,7 @@ Allows specifying a list of valid `client_id` that are automatically rotated. Wh
 - Generate the QR code
 - Decode the QR code to extract the parameters
 
-#### 2. Extract Static Token
-
-- Configure an HTTPS interceptor on any device
-- Open the GreenTheory application or make any API request (even a failed login)
-- Intercept any call to the GreenTheory API
-- Extract the `token` parameter from the HTTPS request
-- Note: This token is **static, shared across all users, and exposed in all requests including unauthenticated ones**
-
-#### 3. Environment Configuration
+#### 2. Environment Configuration
 
 Create a `.env` file in the project directory following the structure of `example.env`:
 ```env
@@ -135,7 +145,7 @@ TOKEN=58565e69e046d3e0468cb273fecba690
 BASE_URL=https://gym.theoryholding.com/request/
 ```
 
-#### 4. Run / Build the Application
+#### 3. Run / Build the Application
 
 ## 📝 Technical Notes
 
