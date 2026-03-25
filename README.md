@@ -22,7 +22,6 @@
 ## ⏱️ Disclosure Timeline
 
 - [14/05/2025] – Vulnerability discovered
-- [08/12/2025] – Attempted to contact the CTO via LinkedIn (no response)
 - [24/12/2025] - Attempted to contact a GreenTheory technical team member via LinkedIn
 - [06/01/2026] - Received a response from the GreenTheory technical team member, who confirmed awareness of the issue and stated that a fix was in progress; an email address was provided for formal disclosure
 - [06/01/2026] - Vulnerability report sent to the provided email address
