@@ -4,6 +4,9 @@
     <p>GreenTheory Access System Vulnerability Exploit</p>
 </div>
 
+> [!NOTE]
+> **The vulnerability documented in this repository has been fixed in the production environment (At least from March 25, 2026). The API endpoints exploited by this tool are no longer available. See the [Disclosure Timeline](#️-disclosure-timeline) for more information.**
+
 > [!WARNING]
 > **This repository has been created exclusively for educational purposes, auditing, and security analysis.**
 >
@@ -24,6 +27,7 @@
 - [06/01/2026] - Received a response from the GreenTheory technical team member, who confirmed awareness of the issue and stated that a fix was in progress; an email address was provided for formal disclosure
 - [06/01/2026] - Vulnerability report sent to the provided email address
 - [17/01/2026] - Received confirmation of vulnerability receipt and acknowledgment from GreenTheory
+- [25/03/2026] - Vulnerability has been fixed in the production environment (API endpoints no more available)
 
 ## 📋 Overview
 
